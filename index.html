@@ -33,7 +33,7 @@ svg{display:block}
 .slide{position:relative;height:100%;width:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden;background:#000}
 .slide .bg{position:absolute;inset:-60px;background-size:cover;background-position:center;filter:blur(36px) brightness(.4) saturate(1.2)}
 .slide .media{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.slide .media img,.slide .media video{width:100%;height:100%;object-fit:contain;display:block}
+.slide .media img,.slide .media video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .slide .media .fill{object-fit:cover}
 .slide .missing{color:var(--mut);font-size:14px;padding:30px;text-align:center}
 .tapzone{position:absolute;inset:0;z-index:2}
@@ -416,39 +416,55 @@ class Feed{
   if(i===this.active||i<0||i>=this.items.length)return;
   this.active=i;this.lastIdx=i;
   const ch=this.el.children;
-  for(let j=0;j<ch.length;j++){if(Math.abs(j-i)<=2)this.mount(ch[j],this.items[j]);else this.unmount(ch[j])}
-  for(let j=0;j<ch.length;j++){const v=ch[j]._v;if(v){if(Math.abs(j-i)<=1&&v.preload!=='auto')v.preload='auto';if(j===i&&this.visible)this.play(v);else{v.pause();ch[j].classList.remove('blocked')}}}
+  for(let j=0;j<ch.length;j++){if(Math.abs(j-i)<=2)this.mount(ch[j],this.items[j]);else this.unmount(ch[j]);if(j!==i){ch[j].classList.remove('blocked');ch[j]._v=null}}
+  this.attach(ch[i],this.items[i]);
+ }
+ getPlayer(){
+  if(this.player)return this.player;
+  const v=document.createElement('video');
+  v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');
+  v.loop=true;v.defaultMuted=true;v.setAttribute('muted','');v.muted=true;v.preload='auto';
+  v.addEventListener('timeupdate',()=>{if(v.duration&&this.bar)this.bar.style.width=(v.currentTime/v.duration*100)+'%'});
+  v.addEventListener('playing',()=>{const s=v.closest('.slide');if(s)s.classList.remove('blocked')});
+  v.addEventListener('canplay',()=>{const s=v.closest('.slide');if(s&&s===this.slideAt(this.active)&&this.visible&&v.paused&&!this.held)this.play(v)});
+  this.player=v;return v;
+ }
+ async attach(slide,it){
+  const v=this.getPlayer();
+  if(!it||it.type!=='video'){v.pause();if(v.parentNode)v.remove();return}
+  const u=await refUrl(it.src);
+  if(slide!==this.slideAt(this.active))return;
+  if(!u){v.pause();if(v.parentNode)v.remove();return}
+  const media=slide.querySelector('.media');
+  v.className=it.w&&it.h&&(it.h/it.w)>1.55?'fill':'';
+  if(v.parentNode!==media)media.appendChild(v);
+  if(v._ref!==it.src){v._ref=it.src;const tu=await refUrl(it.thumb);v.poster=tu||'';v.src=u;try{v.currentTime=0}catch(e){}}
+  this.bar=slide.querySelector('.prog i');if(this.bar)this.bar.style.width='0%';
+  slide._v=v;
+  if(this.visible&&!this.held)this.play(v);
  }
  async mount(slide,it){
   if(slide._m)return;slide._m=1;
   const media=slide.querySelector('.media'),bg=slide.querySelector('.bg');
   const tu=await refUrl(it.thumb||(it.type==='image'?it.src:null));if(!slide._m)return;
   if(tu)bg.style.backgroundImage=`url("${tu}")`;
-  const u=await refUrl(it.src);if(!slide._m)return;
-  if(!u){media.innerHTML='<div class="missing">This item was saved on another device.</div>';return}
   const fill=it.w&&it.h&&(it.h/it.w)>1.55?' fill':'';
   if(it.type==='video'){
-   const v=document.createElement('video');
-   v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');
-   v.loop=true;v.defaultMuted=true;v.setAttribute('muted','');v.muted=S.muted;v.preload=Math.abs(+slide.dataset.i-this.active)<=1?'auto':'metadata';
-   v.addEventListener('canplay',()=>{if(+slide.dataset.i===this.active&&this.visible&&v.paused&&!this.held)this.play(v)});
-   v.addEventListener('playing',()=>slide.classList.remove('blocked'));
-   if(fill)v.className='fill';if(tu)v.poster=tu;v.src=u;
-   const bar=slide.querySelector('.prog i');
-   v.addEventListener('timeupdate',()=>{if(v.duration&&bar)bar.style.width=(v.currentTime/v.duration*100)+'%'});
-   media.appendChild(v);slide._v=v;
-   if(+slide.dataset.i===this.active&&this.visible)this.play(v);
-  }else{
-   const im=new Image();im.decoding='async';im.alt='';if(fill)im.className='fill';im.src=u;media.appendChild(im);
+   if(tu){const im=new Image();im.alt='';im.className='poster'+fill;im.src=tu;media.prepend(im)}
+   return;
   }
+  const u=await refUrl(it.src);if(!slide._m)return;
+  if(!u){media.innerHTML='<div class="missing">This item was saved on another device.</div>';return}
+  const im=new Image();im.decoding='async';im.alt='';if(fill)im.className='fill';im.src=u;media.appendChild(im);
  }
  unmount(slide){
   if(!slide._m)return;slide._m=0;
-  if(slide._v){try{slide._v.pause();slide._v.removeAttribute('src');slide._v.load()}catch(e){}slide._v=null}
-  slide.querySelector('.media').innerHTML='';
+  const media=slide.querySelector('.media');
+  if(this.player&&this.player.parentNode===media){this.player.pause();this.player.remove()}
+  slide._v=null;media.innerHTML='';
  }
  play(v){v.muted=S.muted;const sl=v.closest('.slide');const p=v.play();if(p&&p.catch)p.catch(e=>{if(e&&e.name==='AbortError')return;if(!v.muted){v.muted=true;S.muted=true;v.play().catch(()=>{if(sl&&v.paused)sl.classList.add('blocked')})}else if(sl&&v.paused)sl.classList.add('blocked')})}
- pauseAll(){for(const s of this.el.children)if(s._v)s._v.pause()}
+ pauseAll(){if(this.player)this.player.pause()}
  setVisible(on){
   this.visible=on;
   if(on){
@@ -824,6 +840,7 @@ $('#vback').onclick=()=>show('gallery');
    const sp=spacesSorted();if(sp.length<2)return;let i=sp.findIndex(s=>s.id===S.cur);i=(i+(dx<0?1:-1)+sp.length)%sp.length;setCur(sp[i].id);toast(sp[i].name);
   }},{passive:true});
 })();
+document.addEventListener('touchend',()=>{const f=S.view==='viewer'?viewFeed:S.view==='feed'?mainFeed:null;if(!f||!f.player||f.held)return;const s=f.slideAt(f.active);if(s&&s.classList.contains('blocked')&&s._v===f.player){f.player.muted=S.muted;f.player.play().catch(()=>{})}},{passive:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){mainFeed.pauseAll();viewFeed.pauseAll()}else{if(S.view==='feed')mainFeed.setVisible(true);if(S.view==='viewer')viewFeed.setVisible(true)}});
 
 /* ---------- boot ---------- */
