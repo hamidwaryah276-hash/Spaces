@@ -63,6 +63,20 @@ svg{display:block}
 @keyframes burst{0%{opacity:0;transform:scale(.3) rotate(-12deg)}15%{opacity:1;transform:scale(1.15) rotate(-12deg)}30%{transform:scale(.95) rotate(-12deg)}70%{opacity:1;transform:scale(1) rotate(-12deg)}100%{opacity:0;transform:scale(1) translateY(-60px) rotate(-12deg)}}
 @keyframes flash{0%{opacity:0;transform:scale(.7)}20%{opacity:1;transform:scale(1)}70%{opacity:1}100%{opacity:0}}
 
+.fgear{position:absolute;right:6px;top:calc(var(--st) + 4px);z-index:11;width:44px;height:44px;display:grid;place-items:center;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}.fgear svg{width:25px;height:25px}
+#feedView .chips{padding-right:56px}
+.set-sec{padding:18px 16px 6px;color:var(--mut);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.set-card{margin:0 12px;background:#161616;border-radius:14px;overflow:hidden}
+.set-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid #262626;width:100%;text-align:left}
+.set-row:first-child{border-top:0}
+.set-row .ic{width:24px;height:24px;flex:none}.set-row .ic svg{width:24px;height:24px}
+.set-row .tx{flex:1;min-width:0}.set-row .tx b{display:block;font-size:16px;font-weight:500}.set-row .tx small{display:block;color:var(--mut);font-size:13px;margin-top:3px;line-height:1.35}
+.sw{width:51px;height:31px;border-radius:16px;background:#3a3a3a;position:relative;flex:none;transition:background .2s}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.sw.on{background:#34c759}.sw.on::after{transform:translateX(20px)}
+.seg{display:flex;background:#2a2a2a;border-radius:9px;padding:2px;flex:none}
+.seg button{padding:6px 12px;border-radius:7px;font-size:14px;font-weight:600;color:#bbb}.seg button.on{background:#555;color:#fff}
+.set-row.blue b{color:var(--blue)}
 .feed-top{position:absolute;top:0;left:0;right:0;z-index:10;padding-top:var(--st);background:linear-gradient(rgba(0,0,0,.5),transparent);pointer-events:none}
 .chips{display:flex;gap:20px;overflow-x:auto;padding:12px 18px 16px;pointer-events:auto;scrollbar-width:none;align-items:center}
 .chips::-webkit-scrollbar{display:none}
@@ -201,10 +215,13 @@ svg{display:block}
   <section id="feedView" class="view on">
     <div id="feed" class="feed"></div>
     <div class="feed-top"><div id="chips" class="chips"></div></div>
+    <button class="fgear" data-settings aria-label="Settings"></button>
     <div id="feedEmpty" class="empty"></div>
   </section>
 
   <section id="galleryView" class="view scroll"></section>
+
+  <section id="settingsView" class="view scroll"></section>
 
   <section id="viewerView" class="view">
     <div id="vfeed" class="feed"></div>
@@ -229,7 +246,7 @@ svg{display:block}
 </div>
 
 <script>
-"use strict";const APP_VERSION="7";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
+"use strict";const APP_VERSION="8";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
 (function(){try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');const g=x.createLinearGradient(0,180,180,0);g.addColorStop(0,'#ffc24b');g.addColorStop(.55,'#ff5470');g.addColorStop(1,'#b33bdb');x.fillStyle=g;x.fillRect(0,0,180,180);x.strokeStyle='#fff';x.lineWidth=9;x.lineJoin='round';x.lineCap='round';x.beginPath();x.moveTo(90,40);x.lineTo(147,67);x.lineTo(90,94);x.lineTo(33,67);x.closePath();x.stroke();[100,123].forEach(y=>{x.beginPath();x.moveTo(33,y);x.lineTo(90,y+27);x.lineTo(147,y);x.stroke()});document.getElementById('appIcon').href=c.toDataURL('image/png')}catch(e){}})();
 
 /* ---------- icons ---------- */
@@ -262,6 +279,7 @@ const I={
  cols:sv('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7.5 3v18M12 3v18M16.5 3v18M3 7.5h18M3 12h18M3 16.5h18"/>'),
  lock:sv('<rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>'),
  unlock:sv('<rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.8"/>'),
+ gear:sv('<circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'),
  select:sv('<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.7L16 9.5"/>'),
 };
 
@@ -351,10 +369,13 @@ async function refUrl(ref){
 
 /* ---------- app state ---------- */
 const S={cur:LS.get('cur',null),view:'feed',cols:LS.get('cols',5),sort:LS.get('sort','new'),gtab:'grid',select:null,muted:true,gkey:'',vlist:[],unlocked:new Set()};
+if(S.sort==='shuffle'){S.sort='new';LS.set('sort','new');LS.set('random',true)}
+S.random=LS.get('random',false);
 const isLocked=sp=>!!(sp&&sp.lock&&sp.lock.hash&&!S.unlocked.has(sp.id));
 const shuf=new Map();const rk=id=>{if(!shuf.has(id))shuf.set(id,Math.random());return shuf.get(id)};
 const spacesSorted=()=>[...Store.spaces].sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
 function curSpace(){const sp=spacesSorted();let s=sp.find(x=>x.id===S.cur);if(!s&&sp.length){s=sp[0];S.cur=s.id;LS.set('cur',s.id)}return s||null}
+function feedItemsOf(id){if(!S.random)return itemsOf(id);const a=Store.items.filter(i=>i.spaceId===id);a.sort((x,y)=>rk(x.id)-rk(y.id));return a}
 function itemsOf(id){let a=Store.items.filter(i=>i.spaceId===id);if(S.sort==='shuffle')a.sort((x,y)=>rk(x.id)-rk(y.id));else{a.sort((x,y)=>(y.createdAt||0)-(x.createdAt||0));if(S.sort==='old')a.reverse()}return a}
 const countOf=id=>Store.items.reduce((n,i)=>n+(i.spaceId===id?1:0),0);
 const coverCache=new Map();
@@ -554,11 +575,13 @@ class Feed{
 /* ---------- views ---------- */
 let mainFeed,viewFeed;
 function show(v){
+ if(v==='settings'&&S.view!=='settings')S.back=S.view;
  S.view=v;
- for(const id of ['feed','gallery','viewer'])$('#'+id+'View').classList.toggle('on',id===v);
+ for(const id of ['feed','gallery','viewer','settings'])$('#'+id+'View').classList.toggle('on',id===v);
  mainFeed.setVisible(v==='feed');viewFeed.setVisible(v==='viewer');
  renderTabbar();
  if(v==='gallery')renderGallery();
+ if(v==='settings')renderSettings();
 }
 function setCur(id){if(S.cur===id)return;S.cur=id;LS.set('cur',id);S.select=null;S.gkey='';render()}
 
@@ -577,7 +600,7 @@ function renderTabbar(){
  hydrate(t[3]);
 }
 function renderFeed(){
- const sp=curSpace(),locked=isLocked(sp),list=sp&&!locked?itemsOf(sp.id):[];
+ const sp=curSpace(),locked=isLocked(sp),list=sp&&!locked?feedItemsOf(sp.id):[];
  const ch=$('#chips');
  const chipKey=spacesSorted().map(s=>s.id+s.name+(isLocked(s)?'L':'')).join()+'|'+S.cur;
  if(ch._k!==chipKey){
@@ -784,15 +807,41 @@ function itemMenu(it){
 function galleryMenu(){
  const sp=curSpace();
  return menu('',[
+  {label:'Settings',icon:I.gear,fn:()=>show('settings')},
   {label:'Grid: 3 across',icon:I.grid,cur:S.cols===3,sub:S.cols===3?'✓':'',fn:()=>{S.cols=3;LS.set('cols',3);renderGallery(true)}},
   {label:'Grid: 5 across',icon:I.cols,cur:S.cols===5,sub:S.cols===5?'✓':'',fn:()=>{S.cols=5;LS.set('cols',5);renderGallery(true)}},
   {label:'Newest first',icon:I.down,cur:S.sort==='new',sub:S.sort==='new'?'✓':'',fn:()=>setSort('new')},
   {label:'Oldest first',icon:sv('<path d="m6 15 6-6 6 6"/>'),cur:S.sort==='old',sub:S.sort==='old'?'✓':'',fn:()=>setSort('old')},
-  {label:'Shuffle',icon:I.shuffle,cur:S.sort==='shuffle',sub:S.sort==='shuffle'?'✓':'',fn:()=>{shuf.clear();setSort('shuffle')}},
   {label:'Select posts',icon:I.select,fn:()=>{S.select=new Set();renderGallery(true)}},
   {label:'Edit space',icon:I.edit,fn:()=>sp&&editSpace(sp)},
  ]);
 }
+function renderSettings(){
+ const v=$('#settingsView');const sw=on=>`<span class="sw${on?' on':''}"></span>`;
+ v.innerHTML=`<div class="ghead"><button class="icobtn" data-set="back" aria-label="Back">${I.back}</button><div class="title"><span>Settings</span></div></div>
+  <div class="set-sec">Reels</div>
+  <div class="set-card">
+   <button class="set-row" data-set="random"><span class="ic">${I.shuffle}</span><span class="tx"><b>Random order</b><small>Reels in each space play in a random order instead of newest or oldest first.</small></span>${sw(S.random)}</button>
+   ${S.random?`<button class="set-row blue" data-set="reshuffle"><span class="ic">${I.shuffle}</span><span class="tx"><b>Shuffle again</b><small>Mix the reels into a new random order.</small></span></button>`:''}
+  </div>
+  <div class="set-sec">Gallery</div>
+  <div class="set-card">
+   <div class="set-row"><span class="ic">${I.cols}</span><span class="tx"><b>Grid size</b></span><span class="seg"><button data-set="cols3" class="${S.cols===3?'on':''}">3</button><button data-set="cols5" class="${S.cols===5?'on':''}">5</button></span></div>
+   <div class="set-row"><span class="ic">${I.down}</span><span class="tx"><b>Order</b>${S.random?'<small>Reels use random order. The gallery grid uses this order.</small>':''}</span><span class="seg"><button data-set="new" class="${S.sort!=='old'?'on':''}">Newest</button><button data-set="old" class="${S.sort==='old'?'on':''}">Oldest</button></span></div>
+  </div>
+  <div class="set-sec">About</div>
+  <div class="set-card"><div class="set-row"><span class="ic">${I.layers}</span><span class="tx"><b>Spaces</b><small>${Store.mode==='local'?'Your media is saved on this iPhone.':'Your media is saved to your account.'}</small></span></div></div>
+  <div style="height:30px"></div>`;
+}
+$('#settingsView').addEventListener('click',e=>{
+ const b=e.target.closest('[data-set]');if(!b)return;const a=b.dataset.set;
+ if(a==='back')return show(S.back&&S.back!=='settings'?S.back:'feed');
+ if(a==='random'){S.random=!S.random;LS.set('random',S.random);shuf.clear();mainFeed.key='';mainFeed.lastIdx=0;renderFeed();toast(S.random?'Random order on':'Random order off')}
+ if(a==='reshuffle'){shuf.clear();mainFeed.key='';mainFeed.lastIdx=0;renderFeed();toast('Reels shuffled')}
+ if(a==='cols3'||a==='cols5'){S.cols=a==='cols3'?3:5;LS.set('cols',S.cols);S.gkey='';renderGallery(true)}
+ if(a==='new'||a==='old'){S.sort=a;LS.set('sort',a);mainFeed.key='';render()}
+ renderSettings();
+});
 function setSort(s){S.sort=s;LS.set('sort',s);mainFeed.key='';render()}
 
 /* ---------- adding media ---------- */
@@ -875,6 +924,7 @@ document.addEventListener('click',e=>{
  if(e.target.closest('#sheetBg,#dlgBg'))return;
  const t=e.target.closest('[data-tab]');
  if(t){const k=t.dataset.tab;if(k==='add')return pick();if(k==='spaces')return openSwitcher();if(k==='gallery'&&S.view==='gallery'){$('#galleryView').scrollTo({top:0,behavior:'smooth'});return}if(k==='feed'&&S.view==='feed'){mainFeed.el.scrollTo({top:0,behavior:'smooth'});return}return show(k)}
+ if(e.target.closest('[data-settings]'))return show('settings');
  if(e.target.closest('[data-new]'))return createSpace();
  const ul=e.target.closest('[data-unlock]');if(ul){const sp=Store.spaces.find(x=>x.id===ul.dataset.unlock);if(sp)unlockSpace(sp);return}
  if(e.target.closest('[data-add]'))return pick();
@@ -913,6 +963,7 @@ $('#galleryView').addEventListener('click',e=>{
  g.addEventListener('contextmenu',e=>e.preventDefault());
 })();
 $('#vback').innerHTML=I.back;
+document.querySelector('.fgear').innerHTML=I.gear;
 $('#vback').onclick=()=>show('gallery');
 
 // swipe left/right on the feed to switch spaces
