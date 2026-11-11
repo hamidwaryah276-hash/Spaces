@@ -57,6 +57,7 @@ svg{display:block}
 .flash svg{width:30px;height:30px}
 .flash.go{animation:flash .8s ease}
 .slide.clean .info,.slide.clean .actions,.slide.clean .shade{opacity:0}
+.playbig{position:absolute;left:50%;top:50%;width:78px;height:78px;margin:-39px 0 0 -39px;border-radius:50%;background:rgba(0,0,0,.45);display:none;place-items:center;z-index:5;pointer-events:none}.playbig svg{width:38px;height:38px;margin-left:5px}.slide.blocked .playbig{display:grid}
 .slide .lo{position:absolute;top:calc(var(--st) + 60px);right:12px;z-index:4;font-size:11px;background:rgba(0,0,0,.5);padding:3px 8px;border-radius:10px;color:#ddd}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
 @keyframes burst{0%{opacity:0;transform:scale(.3) rotate(-12deg)}15%{opacity:1;transform:scale(1.15) rotate(-12deg)}30%{transform:scale(.95) rotate(-12deg)}70%{opacity:1;transform:scale(1) rotate(-12deg)}100%{opacity:0;transform:scale(1) translateY(-60px) rotate(-12deg)}}
@@ -392,7 +393,7 @@ class Feed{
   const vid=it.type==='video';
   return `<div class="slide" data-i="${i}">
    <div class="bg"></div><div class="media"></div><div class="tapzone"></div>
-   <div class="burst">${I.heartF}</div><div class="flash"></div><div class="shade"></div>
+   ${vid?`<div class="playbig">${I.play}</div>`:''}<div class="burst">${I.heartF}</div><div class="flash"></div><div class="shade"></div>
    ${it.localOnly&&Store.mode==='cloud'?'<div class="lo">On this device</div>':''}
    <div class="info"><button class="who" data-act="open">${avatar(sp,34)}<span>${esc(sp.name)}</span><span class="follow">Gallery</span></button>
     <div class="meta">${vid?'Video':'Photo'}${vid&&it.dur?' · '+fmtDur(it.dur):''} · ${fmtDate(it.createdAt)} · ${i+1}/${this.items.length}</div></div>
@@ -416,7 +417,7 @@ class Feed{
   this.active=i;this.lastIdx=i;
   const ch=this.el.children;
   for(let j=0;j<ch.length;j++){if(Math.abs(j-i)<=2)this.mount(ch[j],this.items[j]);else this.unmount(ch[j])}
-  for(let j=0;j<ch.length;j++){const v=ch[j]._v;if(v){if(j===i&&this.visible)this.play(v);else v.pause()}}
+  for(let j=0;j<ch.length;j++){const v=ch[j]._v;if(v){if(Math.abs(j-i)<=1&&v.preload!=='auto')v.preload='auto';if(j===i&&this.visible)this.play(v);else{v.pause();ch[j].classList.remove('blocked')}}}
  }
  async mount(slide,it){
   if(slide._m)return;slide._m=1;
@@ -429,7 +430,9 @@ class Feed{
   if(it.type==='video'){
    const v=document.createElement('video');
    v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');
-   v.loop=true;v.muted=S.muted;v.preload=(+slide.dataset.i===this.active)?'auto':'metadata';
+   v.loop=true;v.defaultMuted=true;v.setAttribute('muted','');v.muted=S.muted;v.preload=Math.abs(+slide.dataset.i-this.active)<=1?'auto':'metadata';
+   v.addEventListener('canplay',()=>{if(+slide.dataset.i===this.active&&this.visible&&v.paused&&!this.held)this.play(v)});
+   v.addEventListener('playing',()=>slide.classList.remove('blocked'));
    if(fill)v.className='fill';if(tu)v.poster=tu;v.src=u;
    const bar=slide.querySelector('.prog i');
    v.addEventListener('timeupdate',()=>{if(v.duration&&bar)bar.style.width=(v.currentTime/v.duration*100)+'%'});
@@ -444,7 +447,7 @@ class Feed{
   if(slide._v){try{slide._v.pause();slide._v.removeAttribute('src');slide._v.load()}catch(e){}slide._v=null}
   slide.querySelector('.media').innerHTML='';
  }
- play(v){v.muted=S.muted;const p=v.play();if(p&&p.catch)p.catch(()=>{if(!v.muted){v.muted=true;S.muted=true;v.play().catch(()=>{})}})}
+ play(v){v.muted=S.muted;const sl=v.closest('.slide');const p=v.play();if(p&&p.catch)p.catch(e=>{if(e&&e.name==='AbortError')return;if(!v.muted){v.muted=true;S.muted=true;v.play().catch(()=>{if(sl&&v.paused)sl.classList.add('blocked')})}else if(sl&&v.paused)sl.classList.add('blocked')})}
  pauseAll(){for(const s of this.el.children)if(s._v)s._v.pause()}
  setVisible(on){
   this.visible=on;
@@ -471,6 +474,7 @@ class Feed{
  }
  singleTap(it,slide){
   if(it.type==='video'&&slide._v){
+   if(slide._v.paused){slide.classList.remove('blocked');slide._v.muted=S.muted;slide._v.play().catch(()=>{slide._v.muted=true;S.muted=true;slide._v.play().catch(()=>{})});return}
    S.muted=!S.muted;
    document.querySelectorAll('.slide video').forEach(v=>v.muted=S.muted);
    if(slide._v.paused)this.play(slide._v);
