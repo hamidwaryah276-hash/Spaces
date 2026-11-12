@@ -48,8 +48,16 @@ svg{display:block}
 .act.like.on{color:var(--red)}
 .act.pop svg{animation:pop .4s ease}
 .act.cover .av{width:30px;height:30px;border-radius:8px;border:2px solid #fff;font-size:13px}
-.prog{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.22);z-index:5}
-.prog i{display:block;height:100%;width:0;background:rgba(255,255,255,.9)}
+.prog{position:absolute;left:0;right:0;bottom:0;height:18px;z-index:5;touch-action:none}
+.prog s{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.22);transition:height .15s}
+.prog i{position:absolute;left:0;bottom:0;height:2px;width:0;background:rgba(255,255,255,.9);transition:height .15s}
+.prog.on s,.prog.on i{height:6px}.prog.on i{background:#fff}
+.prog em{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-style:normal;font-size:15px;font-weight:600;background:rgba(0,0,0,.65);padding:5px 12px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .15s;white-space:nowrap}
+.prog.on em{opacity:1}
+.prog.ph{pointer-events:none;height:2px}
+.feed:not(.auto) .prog.ph{display:none}
+.slide.isalb.pv .prog.ph{display:none}
+.slide.isalb:not(.pv) .prog.sc{display:none}
 .burst{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;z-index:6;opacity:0;pointer-events:none;color:#fff;filter:drop-shadow(0 4px 14px rgba(0,0,0,.35))}
 .burst svg{width:100%;height:100%}
 .burst.go{animation:burst .85s ease}
@@ -82,7 +90,7 @@ svg{display:block}
 .chips::-webkit-scrollbar{display:none}
 .chip{font-size:17px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;position:relative;padding-bottom:5px;text-shadow:0 1px 3px rgba(0,0,0,.4);transition:color .15s}
 .chip.on{color:#fff}
-.chip.on::after{content:'';position:absolute;left:25%;right:25%;bottom:0;height:2px;border-radius:2px;background:#fff}
+.chip.on::after{content:'';position:absolute;left:25%;right:25%;bottom:0;height:2px;border-radius:2px;background:var(--c,#fff)}
 .chip.add{color:#fff;padding-bottom:3px}
 .chip.add svg{width:22px;height:22px}
 .vbar{display:flex;align-items:center;gap:6px;padding:6px 8px;pointer-events:auto}
@@ -208,6 +216,46 @@ svg{display:block}
 .pad button{width:78px;height:78px;border-radius:50%;background:#2a2a2a;font-size:30px;font-weight:400}
 .pad button:active{background:#555}.pad .nob{background:none;font-size:16px}.pad .nob:active{background:none;opacity:.5}
 @keyframes shake{0%,100%{transform:none}20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+.alb{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain}
+.alb::-webkit-scrollbar{display:none}
+.ap{position:relative;flex:0 0 100%;width:100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always;overflow:hidden}
+.acnt{position:absolute;top:calc(var(--st) + 58px);right:12px;z-index:4;font-size:12px;font-weight:600;background:rgba(0,0,0,.55);padding:4px 9px;border-radius:12px;pointer-events:none}
+.adots{position:absolute;left:0;right:0;bottom:7px;z-index:4;display:flex;justify-content:center;gap:5px;pointer-events:none}
+.adots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}.adots i.on{background:#fff}
+.tags{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:6px}
+.tags:empty{display:none}
+.tags button{font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.chip .em{margin-right:5px}
+.ghead .title .em{font-size:19px;margin-right:2px}
+.av.em{font-weight:400}
+.gsearch{margin:4px 16px 6px;display:flex;align-items:center;gap:8px;background:#262626;border-radius:10px;padding:0 6px 0 10px;height:38px}
+.gsearch svg{width:18px;height:18px;color:var(--mut);flex:none}
+.gsearch input{flex:1;min-width:0;background:none;border:0;outline:none;color:#fff;font-size:16px;font-family:inherit;-webkit-user-select:text;user-select:text;-webkit-appearance:none;appearance:none;padding:0}
+.gsearch input::-webkit-search-cancel-button{display:none}
+.gsearch button{width:28px;height:28px;border-radius:50%;font-size:20px;color:var(--mut);flex:none}
+.gsearch input:placeholder-shown+button{display:none}
+.gtags{display:flex;gap:8px;overflow-x:auto;padding:2px 16px 10px;scrollbar-width:none}.gtags::-webkit-scrollbar{display:none}
+.gtag{background:#262626;border-radius:16px;padding:6px 12px;font-size:13px;font-weight:600;white-space:nowrap;flex:none}.gtag small{color:var(--mut);font-weight:500;margin-left:5px}
+.gtag.on{background:#f5f5f5;color:#000}.gtag.on small{color:#555}
+.tagbox{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px}
+.tg{display:inline-flex;align-items:center;gap:6px;background:#3a3a3a;border-radius:16px;padding:5px 5px 5px 12px;font-size:14px;font-weight:600}
+.tg small{color:var(--mut);font-weight:500}
+.tg button{width:24px;height:24px;border-radius:50%;background:#555;font-size:15px;line-height:1}
+.tg.sug{padding:6px 12px;background:#2f2f2f;color:#ddd}
+.tnone{color:var(--mut);font-size:14px}
+.tagin,.icrow{display:flex;gap:8px;align-items:center;padding:4px 16px 8px}
+.tagin input,.icrow input{flex:1;min-width:0;background:#121212;border:1px solid #3a3a3a;border-radius:10px;color:#fff;font-size:16px;font-family:inherit;padding:10px 12px;outline:none;-webkit-user-select:text;user-select:text}
+.icprev{display:flex;justify-content:center;padding:6px 0 12px}
+.swatches{display:flex;flex-wrap:wrap;gap:10px;padding:6px 16px}
+.swt{width:34px;height:34px;border-radius:50%;border:2px solid transparent;box-shadow:inset 0 0 0 2px #262626}
+.swt.on{border-color:#fff}
+.swt.none{width:auto;padding:0 12px;border-radius:17px;background:#3a3a3a;font-size:13px;font-weight:600;box-shadow:none}
+.set-row .val{color:var(--mut);font-size:14px;flex:none}
+.set-row .ic .av{width:24px!important;height:24px!important;font-size:11px!important}
+.handle{width:44px;height:44px;display:grid;place-items:center;touch-action:none;color:var(--mut);flex:none;cursor:grab}.handle svg{width:24px;height:24px}
+.sheet .row.drag{position:relative;z-index:2;background:#333;box-shadow:0 6px 20px rgba(0,0,0,.5);border-radius:12px}
+.hid{display:inline-block;width:14px;height:14px;vertical-align:-2px;color:var(--mut)}.hid svg{width:14px;height:14px}
+.facebtn{display:flex;align-items:center;gap:8px;margin-top:26px;color:var(--blue);font-size:16px;font-weight:600;padding:8px}.facebtn svg{width:24px;height:24px}
 </style>
 </head>
 <body>
@@ -243,10 +291,11 @@ svg{display:block}
   <div id="pinBg"></div>
   <div id="loading"><div class="logo"></div><div class="spin"></div></div>
   <input type="file" id="picker" accept="image/*,video/*" multiple hidden>
+  <input type="file" id="restorePicker" hidden>
 </div>
 
 <script>
-"use strict";const APP_VERSION="8";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
+"use strict";const APP_VERSION="9";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
 (function(){try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');const g=x.createLinearGradient(0,180,180,0);g.addColorStop(0,'#ffc24b');g.addColorStop(.55,'#ff5470');g.addColorStop(1,'#b33bdb');x.fillStyle=g;x.fillRect(0,0,180,180);x.strokeStyle='#fff';x.lineWidth=9;x.lineJoin='round';x.lineCap='round';x.beginPath();x.moveTo(90,40);x.lineTo(147,67);x.lineTo(90,94);x.lineTo(33,67);x.closePath();x.stroke();[100,123].forEach(y=>{x.beginPath();x.moveTo(33,y);x.lineTo(90,y+27);x.lineTo(147,y);x.stroke()});document.getElementById('appIcon').href=c.toDataURL('image/png')}catch(e){}})();
 
 /* ---------- icons ---------- */
@@ -281,6 +330,18 @@ const I={
  unlock:sv('<rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.8"/>'),
  gear:sv('<circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'),
  select:sv('<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.7L16 9.5"/>'),
+ album:sv('<rect x="7.5" y="7.5" width="13" height="13" rx="2.5"/><path d="M16.5 3.5H6A2.5 2.5 0 0 0 3.5 6v10.5"/>'),
+ tag:sv('<path d="M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8a1.4 1.4 0 0 1 0 2l-7.1 7.1a1.4 1.4 0 0 1-2 0z"/><circle cx="8" cy="8" r="1.5"/>'),
+ search:sv('<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>'),
+ eye:sv('<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>'),
+ eyeOff:sv('<path d="M10.6 5.6A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a16 16 0 0 1-2.6 3.4M6.5 7.1C3.9 8.8 2.5 12 2.5 12S6 18.5 12 18.5c1.6 0 3-.4 4.2-1M3.5 3.5l17 17"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'),
+ face:sv('<path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M9 9.5v1M15 9.5v1M12 9.5v3.5h-1M9.5 16a3.5 3.5 0 0 0 5 0"/>'),
+ save:sv('<path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 15.5v3a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3"/>'),
+ restore:sv('<path d="M12 14.5v-11M7.5 8 12 3.5 16.5 8M4.5 15.5v3a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3"/>'),
+ db:sv('<ellipse cx="12" cy="6" rx="7.5" ry="2.8"/><path d="M4.5 6v12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V6M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/>'),
+ auto:sv('<rect x="3" y="3" width="18" height="18" rx="5"/><path d="m10 8.5 5 3.5-5 3.5z" fill="currentColor"/><path d="M12 21v-3"/>'),
+ grip:sv('<path d="M5 9h14M5 15h14"/>'),
+ palette:sv('<path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.8-.8 1.8-1.7 0-1.1-.9-1.4-.9-2.4 0-.9.7-1.6 1.6-1.6h2.2a3.8 3.8 0 0 0 3.8-3.8C20.5 7 16.7 3.5 12 3.5z"/><circle cx="7.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="10" cy="7.5" r="1.2" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.2" fill="currentColor"/>'),
 };
 
 /* ---------- helpers ---------- */
@@ -293,6 +354,13 @@ const hue=s=>{let h=7;for(const c of String(s))h=(h*31+c.charCodeAt(0))%360;retu
 const fmtDate=ts=>{try{const d=new Date(ts),n=new Date();return d.toLocaleDateString(undefined,d.getFullYear()===n.getFullYear()?{month:'short',day:'numeric'}:{month:'short',day:'numeric',year:'numeric'})}catch(e){return''}};
 const fmtDur=s=>{if(!s||!isFinite(s))return'';s=Math.round(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 const num=v=>(typeof v==='number'&&isFinite(v))?v:null;
+const fmtSize=b=>{b=+b||0;if(b<1)return'0 MB';const u=['B','KB','MB','GB','TB'];let i=0;while(b>=1024&&i<4){b/=1024;i++}return (i>=2?b.toFixed(b<10?1:0):Math.round(b))+' '+u[i]};
+const fmtT=t=>{t=Math.max(0,Math.floor(t||0));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
+const tagsHTML=it=>(it.tags||[]).map(t=>`<button data-act="tag" data-t="${esc(t)}">#${esc(t)}</button>`).join('');
+const normTags=s=>String(s||'').split(/[\s,]+/).map(t=>t.replace(/^#+/,'').toLowerCase().replace(/[^\p{L}\p{N}_-]/gu,'').slice(0,30)).filter(Boolean);
+const okColor=c=>/^#[0-9a-f]{6}$/i.test(c||'');
+const itemRefs=it=>{const r=new Set([it.src,it.thumb]);(it.parts||[]).forEach(p=>{r.add(p.src);r.add(p.thumb)});r.delete(undefined);r.delete(null);return [...r]};
+const NOTE_LOCAL='Saved on this iPhone';
 
 /* ---------- IndexedDB (device storage) ---------- */
 let _idb;
@@ -340,8 +408,13 @@ const Store={
   const it=this.items.find(x=>x.id===id);if(it)Object.assign(it,p);
   if(this.mode==='cloud'){this.emit();await this.col('items').doc(id).update(clean(p))}else{this.emit();await this.saveLocal()}
  },
+ async addItems(arr){if(!arr.length)return;if(this.mode==='cloud'){for(const it of arr){const{id,...d}=it;await this.col('items').doc(id).set(clean(d))}}else{this.items.push(...arr);this.emit();await this.saveLocal()}},
+ async addSpaces(arr){if(!arr.length)return;if(this.mode==='cloud'){for(const x of arr){const{id,...d}=x;await this.col('spaces').doc(id).set(clean(d))}}else{this.spaces.push(...arr);this.emit();await this.saveLocal()}},
+ async delRecords(ids){const st=new Set(ids);if(this.mode==='cloud'){for(const id of ids)await this.col('items').doc(id).delete()}else{this.items=this.items.filter(x=>!st.has(x.id));this.emit();await this.saveLocal()}},
+ async patchItems(list){if(!list.length)return;for(const[id,p]of list){const it=this.items.find(x=>x.id===id);if(it)Object.assign(it,p)}this.emit();if(this.mode==='cloud'){for(const[id,p]of list)await this.col('items').doc(id).update(clean(p))}else await this.saveLocal()},
+ async patchSpaces(list){if(!list.length)return;if(this.mode==='cloud'){for(const[id,p]of list)await this.col('spaces').doc(id).update(clean(p))}else{for(const[id,p]of list){const x=this.spaces.find(y=>y.id===id);if(x)Object.assign(x,p)}this.emit();await this.saveLocal()}},
  async delItem(it){
-  for(const r of [it.src,it.thumb])if(r)await this.dropBlob(r);
+  for(const r of itemRefs(it))await this.dropBlob(r);
   if(this.mode==='cloud')await this.col('items').doc(it.id).delete();
   else{this.items=this.items.filter(x=>x.id!==it.id);this.emit();await this.saveLocal()}
  },
@@ -370,11 +443,14 @@ async function refUrl(ref){
 /* ---------- app state ---------- */
 const S={cur:LS.get('cur',null),view:'feed',cols:LS.get('cols',5),sort:LS.get('sort','new'),gtab:'grid',select:null,muted:true,gkey:'',vlist:[],unlocked:new Set()};
 if(S.sort==='shuffle'){S.sort='new';LS.set('sort','new');LS.set('random',true)}
-S.random=LS.get('random',false);
+S.random=LS.get('random',false);S.sound=LS.get('sound',false);S.muted=!S.sound;S.auto=LS.get('auto',false);S.q='';S.showHidden=false;S.busy=false;S.busyAt=0;S.reorder=false;S.fidAvail=false;
+const busy=on=>{S.busy=!!on;if(on)S.busyAt=Date.now()};
+const isBusy=()=>S.busy&&Date.now()-S.busyAt<180000;
 const isLocked=sp=>!!(sp&&sp.lock&&sp.lock.hash&&!S.unlocked.has(sp.id));
 const shuf=new Map();const rk=id=>{if(!shuf.has(id))shuf.set(id,Math.random());return shuf.get(id)};
-const spacesSorted=()=>[...Store.spaces].sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
-function curSpace(){const sp=spacesSorted();let s=sp.find(x=>x.id===S.cur);if(!s&&sp.length){s=sp[0];S.cur=s.id;LS.set('cur',s.id)}return s||null}
+const spOrd=s=>typeof s.order==='number'?s.order:1e7+(s.createdAt||0)/1e6;
+const spacesSorted=()=>[...Store.spaces].filter(s=>!s.hidden||S.showHidden).sort((a,b)=>spOrd(a)-spOrd(b));
+function curSpace(){const sp=spacesSorted();let s=sp.find(x=>x.id===S.cur);if(!s&&sp.length){if(S.cur)S.unlocked.delete(S.cur);s=sp[0];S.cur=s.id;LS.set('cur',s.id)}return s||null}
 function feedItemsOf(id){if(!S.random)return itemsOf(id);const a=Store.items.filter(i=>i.spaceId===id);a.sort((x,y)=>rk(x.id)-rk(y.id));return a}
 function itemsOf(id){let a=Store.items.filter(i=>i.spaceId===id);if(S.sort==='shuffle')a.sort((x,y)=>rk(x.id)-rk(y.id));else{a.sort((x,y)=>(y.createdAt||0)-(x.createdAt||0));if(S.sort==='old')a.reverse()}return a}
 const countOf=id=>Store.items.reduce((n,i)=>n+(i.spaceId===id?1:0),0);
@@ -388,8 +464,9 @@ function coverRef(sp){
 function avatar(sp,size,ring,active){
  const name=sp?sp.name:'?';
  if(isLocked(sp)){const a=`<span class="av lockd" style="width:${size}px;height:${size}px">${I.lock}</span>`;return ring?`<span class="ring dim">${a}</span>`:a}
- const ref=coverRef(sp);
- const a=`<span class="av" style="width:${size}px;height:${size}px;font-size:${Math.round(size*.42)}px;--h:${hue(name)}"${ref?` data-bg="${esc(ref)}"`:''}>${esc((String(name).trim()[0]||'?').toUpperCase())}</span>`;
+ const ref=sp&&sp.noPhoto?null:coverRef(sp);
+ const col=sp&&okColor(sp.color)?sp.color:null,em=sp&&sp.emoji;
+ const a=`<span class="av${em?' em':''}" style="width:${size}px;height:${size}px;font-size:${Math.round(size*(em?.5:.42))}px;--h:${hue(name)}${col?';background-color:'+col:''}"${ref?` data-bg="${esc(ref)}"`:''}>${em?esc(em):esc((String(name).trim()[0]||'?').toUpperCase())}</span>`;
  return ring?`<span class="ring${active===false?' dim':''}">${a}</span>`:a;
 }
 function hydrate(root){
@@ -404,7 +481,7 @@ class Feed{
   this.el=el;this.opts=opts;this.items=[];this.key='';this.active=-1;this.visible=false;this.lastIdx=0;this.pending=null;
   this.io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting&&e.intersectionRatio>=.6)this.setActive(+e.target.dataset.i)},{root:el,threshold:[.6]});
   el.addEventListener('click',e=>this.onClick(e));
-  el.addEventListener('pointerdown',e=>{if(!e.target.closest('.tapzone'))return;this.px=e.clientX;this.py=e.clientY;clearTimeout(this.holdT);this.holdT=setTimeout(()=>this.hold(true),260)});
+  el.addEventListener('pointerdown',e=>{if(e.target.closest('.prog.sc'))return this.scrub(e);if(!e.target.closest('.tapzone,.alb'))return;this.px=e.clientX;this.py=e.clientY;clearTimeout(this.holdT);this.holdT=setTimeout(()=>this.hold(true),260)});
   el.addEventListener('pointermove',e=>{if(this.holdT&&(Math.abs(e.clientX-this.px)>8||Math.abs(e.clientY-this.py)>8)){clearTimeout(this.holdT);this.holdT=null}});
   const up=()=>{clearTimeout(this.holdT);this.holdT=null;if(this.held)this.hold(false)};
   el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
@@ -413,7 +490,7 @@ class Feed{
  slideAt(i){return this.el.children[i]}
  setItems(items,startId){
   const sp=items[0]&&Store.spaces.find(s=>s.id===items[0].spaceId);
-  const key=items.map(i=>i.id).join(',')+'|'+(sp?sp.name+coverRef(sp):'');
+  const key=items.map(i=>i.id+(i.parts?':'+i.parts.length:'')).join(',')+'|'+(sp?sp.name+(sp.emoji||'')+(sp.color||'')+(sp.noPhoto?'n':'')+coverRef(sp):'');
   const cur=this.items[this.active];const keepId=startId||(cur&&cur.id);
   this.items=items;
   if(key===this.key){this.refreshMeta();if(startId)this.go(Math.max(0,items.findIndex(i=>i.id===startId)));return}
@@ -423,30 +500,32 @@ class Feed{
   if(items.length)this.go(Math.max(0,idx));
  }
  render(){
-  this.io.disconnect();
+  this.io.disconnect();clearTimeout(this.autoT);
   this.el.innerHTML=this.items.map((it,i)=>this.slideHTML(it,i)).join('');
   for(const s of this.el.children)this.io.observe(s);
   hydrate(this.el);
  }
  slideHTML(it,i){
   const sp=Store.spaces.find(s=>s.id===it.spaceId)||{name:'?',id:''};
-  const vid=it.type==='video';
-  return `<div class="slide" data-i="${i}">
-   <div class="bg"></div><div class="media"></div><div class="tapzone"></div>
-   ${vid?`<div class="playbig">${I.play}</div>`:''}<div class="burst">${I.heartF}</div><div class="flash"></div><div class="shade"></div>
+  const vid=it.type==='video',alb=it.type==='album',n=alb?it.parts.length:0;
+  const kind=alb?`Album · ${n} items`:vid?'Video'+(it.dur?' · '+fmtDur(it.dur):''):'Photo';
+  return `<div class="slide${alb?' isalb':''}" data-i="${i}">
+   <div class="bg"></div><div class="media"></div>${alb?'':'<div class="tapzone"></div>'}
+   ${vid||alb?`<div class="playbig">${I.play}</div>`:''}<div class="burst">${I.heartF}</div><div class="flash"></div><div class="shade"></div>
+   ${alb?`<div class="acnt">1/${n}</div>${n<=12?`<div class="adots">${it.parts.map((_,k)=>`<i${k?'':' class="on"'}></i>`).join('')}</div>`:''}`:''}
    ${it.localOnly&&Store.mode==='cloud'?'<div class="lo">On this device</div>':''}
    <div class="info"><button class="who" data-act="open">${avatar(sp,34)}<span>${esc(sp.name)}</span><span class="follow">Gallery</span></button>
-    <div class="meta">${vid?'Video':'Photo'}${vid&&it.dur?' · '+fmtDur(it.dur):''} · ${fmtDate(it.createdAt)} · ${i+1}/${this.items.length}</div></div>
+    <div class="meta">${kind} · ${fmtDate(it.createdAt)} · ${i+1}/${this.items.length}</div><div class="tags">${tagsHTML(it)}</div></div>
    <div class="actions">
     <button class="act like${it.liked?' on':''}" data-act="like" aria-label="Like">${it.liked?I.heartF:I.heart}</button>
     <button class="act" data-act="grid" aria-label="Gallery">${I.grid}</button>
     <button class="act" data-act="more" aria-label="More">${I.more}</button>
     <button class="act cover" data-act="open" aria-label="Open space">${avatar(sp,30)}</button>
    </div>
-   ${vid?'<div class="prog"><i></i></div>':''}
+   ${vid||alb?'<div class="prog sc"><s></s><i></i><em></em></div>':''}${vid?'':'<div class="prog ph"><s></s><i></i></div>'}
   </div>`;
  }
- refreshMeta(){[...this.el.children].forEach((s,i)=>{const it=this.items[i];const b=s.querySelector('.like');if(b&&it){b.classList.toggle('on',!!it.liked);b.innerHTML=it.liked?I.heartF:I.heart}})}
+ refreshMeta(){[...this.el.children].forEach((s,i)=>{const it=this.items[i];if(!it)return;const b=s.querySelector('.like');if(b){b.classList.toggle('on',!!it.liked);b.innerHTML=it.liked?I.heartF:I.heart}const tg=s.querySelector('.tags');if(tg){const h=tagsHTML(it);if(tg.innerHTML!==h)tg.innerHTML=h}})}
  go(idx){
   this.pending=idx;
   requestAnimationFrame(()=>{if(this.el.clientHeight){this.el.scrollTop=idx*this.el.clientHeight;this.pending=null}});
@@ -456,20 +535,28 @@ class Feed{
   if(i===this.active||i<0||i>=this.items.length)return;
   this.active=i;this.lastIdx=i;
   const ch=this.el.children;
-  for(let j=0;j<ch.length;j++){if(Math.abs(j-i)<=2)this.mount(ch[j],this.items[j]);else this.unmount(ch[j]);if(j!==i){ch[j].classList.remove('blocked');ch[j]._v=null}}
+  for(let j=0;j<ch.length;j++){if(Math.abs(j-i)<=2)this.mount(ch[j],this.items[j]);else this.unmount(ch[j]);if(j!==i){ch[j].classList.remove('blocked');ch[j]._v=null;ch[j].querySelectorAll('.alb video').forEach(v=>v.pause())}}
   this.assignPlayers(i);
+  const s=ch[i],it=this.items[i];
+  if(s&&s._alb){if(S.auto&&it.parts.length>1&&s._pi===it.parts.length-1){s._alb.scrollLeft=0}this.albumSync(s)}
+  this.arm();
  }
- makePlayer(){
+ wire(v){
+  const show=()=>{if(v.readyState>=2)v.style.opacity='1'};
+  v.addEventListener('loadeddata',show);v.addEventListener('seeked',show);
+  v.addEventListener('playing',()=>{show();const s=v.closest('.slide');if(s)s.classList.remove('blocked')});
+  v.addEventListener('timeupdate',()=>{show();if(v.duration&&v._bar&&!v._scrub)v._bar.style.width=(v.currentTime/v.duration*100)+'%'});
+  const mine=()=>{const s=v.closest('.slide');return !!(s&&s._v===v&&+s.dataset.i===this.active)};
+  v.addEventListener('canplay',()=>{if(mine()&&this.visible&&v.paused&&!this.held&&!v._scrub)this.play(v)});
+  v.addEventListener('ended',()=>{if(mine()&&S.auto&&this.visible&&!this.held)this.advance()});
+ }
+ makeVid(){
   const v=document.createElement('video');
   v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');
-  v.loop=true;v.defaultMuted=true;v.setAttribute('muted','');v.muted=true;v.preload='auto';v.style.opacity='0';
-  const show=()=>{if(v.readyState>=2)v.style.opacity='1'};
-  v.addEventListener('loadeddata',show);v.addEventListener('seeked',show);v.addEventListener('playing',show);
-  v.addEventListener('timeupdate',()=>{show();if(v.duration&&v._bar)v._bar.style.width=(v.currentTime/v.duration*100)+'%'});
-  v.addEventListener('playing',()=>{const s=v.closest('.slide');if(s)s.classList.remove('blocked')});
-  v.addEventListener('canplay',()=>{if(v._idx===this.active&&this.visible&&v.paused&&!this.held)this.play(v)});
-  return v;
+  v.loop=!S.auto;v.defaultMuted=true;v.setAttribute('muted','');v.muted=true;v.preload='metadata';v.style.opacity='0';
+  this.wire(v);return v;
  }
+ makePlayer(){const v=this.makeVid();v.preload='auto';return v}
  cur(){const s=this.slideAt(this.active);return s&&s._v||null}
  assignPlayers(i){
   if(!this.pool)this.pool=[this.makePlayer(),this.makePlayer(),this.makePlayer()];
@@ -493,7 +580,7 @@ class Feed{
   p.className=it.w&&it.h&&(it.h/it.w)>1.55?'fill':'';
   if(p.parentNode!==media)media.appendChild(p);
   if(p._ref!==it.src){p._ref=it.src;p._primed=0;p.style.opacity='0';p.src=u;try{p.load()}catch(e){}}
-  p._bar=slide.querySelector('.prog i');
+  p._bar=slide.querySelector('.prog.sc i');
   if(j===this.active){slide._v=p;if(this.visible&&!this.held)this.play(p)}
   else{p.muted=true;if(!p._primed&&p.readyState<3){p._primed=1;const pr=p.play();if(pr&&pr.then)pr.then(()=>{if(p._idx!==this.active){p.pause();try{p.currentTime=0}catch(e){}}}).catch(()=>{p._primed=0})}else if(p._idx!==this.active){p.pause();if(p.currentTime>0.05){try{p.currentTime=0}catch(e){}}}}
  }
@@ -505,6 +592,7 @@ class Feed{
  async mount(slide,it){
   if(slide._m)return;slide._m=1;
   const media=slide.querySelector('.media'),bg=slide.querySelector('.bg');
+  if(it.type==='album')return this.mountAlbum(slide,it,media,bg);
   const tu=await refUrl(it.thumb||(it.type==='image'?it.src:null));if(!slide._m)return;
   if(tu)bg.style.backgroundImage=`url("${tu}")`;
   const fill=it.w&&it.h&&(it.h/it.w)>1.55?' fill':'';
@@ -516,44 +604,121 @@ class Feed{
   if(!u){media.innerHTML='<div class="missing">This item was saved on another device.</div>';return}
   const im=new Image();im.decoding='async';im.alt='';if(fill)im.className='fill';im.src=u;media.appendChild(im);
  }
+ mountAlbum(slide,it,media,bg){
+  const st=document.createElement('div');st.className='alb';slide._alb=st;slide._pi=0;
+  const bar=slide.querySelector('.prog.sc i');
+  it.parts.forEach((p,k)=>{
+   const ap=document.createElement('div');ap.className='ap';st.appendChild(ap);
+   const fill=p.w&&p.h&&(p.h/p.w)>1.55?'fill':'';
+   (async()=>{
+    const tu=await refUrl(p.thumb||(p.type==='image'?p.src:null));if(slide._alb!==st)return;
+    if(k===0&&tu)bg.style.backgroundImage=`url("${tu}")`;
+    if(p.type==='video'){
+     if(tu){const im=new Image();im.alt='';im.className=fill;im.src=tu;ap.appendChild(im)}
+     const v=this.makeVid();v.className=fill;v._bar=bar;ap.appendChild(v);
+     const u=await refUrl(p.src);if(slide._alb!==st)return;
+     if(u){v.src=u;try{v.load()}catch(e){}}
+     if(slide._pi===k&&+slide.dataset.i===this.active)this.albumSync(slide);
+    }else{
+     const u=await refUrl(p.src);if(slide._alb!==st)return;
+     if(u){const im=new Image();im.decoding='async';im.alt='';if(fill)im.className=fill;im.src=u;ap.appendChild(im)}
+     else ap.innerHTML='<div class="missing">This item was saved on another device.</div>';
+    }
+   })();
+  });
+  media.appendChild(st);
+  st.addEventListener('scroll',()=>{clearTimeout(st._t);st._t=setTimeout(()=>{const o=slide._pi;this.albumSync(slide);if(slide._pi!==o&&+slide.dataset.i===this.active)this.arm()},80)},{passive:true});
+  if(+slide.dataset.i===this.active)this.albumSync(slide);
+ }
+ albumSync(s){
+  const it=this.items[+s.dataset.i],st=s._alb;if(!it||!st||!it.parts)return;
+  const n=it.parts.length,pi=Math.max(0,Math.min(n-1,Math.round(st.scrollLeft/Math.max(1,st.clientWidth))));s._pi=pi;
+  s.querySelectorAll('.adots i').forEach((d,k)=>d.classList.toggle('on',k===pi));
+  const c=s.querySelector('.acnt');if(c)c.textContent=(pi+1)+'/'+n;
+  const act=+s.dataset.i===this.active;let cv=null;
+  [...st.children].forEach((ap,k)=>{const v=ap.querySelector('video');if(!v)return;if(k===pi&&act)cv=v;else{v.pause();if(k!==pi&&v.currentTime>.05){try{v.currentTime=0}catch(e){}}}});
+  s.classList.toggle('pv',!!(it.parts[pi]&&it.parts[pi].type==='video'));s.classList.remove('blocked');
+  if(act)s._v=cv;
+  if(cv){cv._bar=s.querySelector('.prog.sc i');if(cv._bar)cv._bar.style.width=cv.duration?(cv.currentTime/cv.duration*100)+'%':'0';if(this.visible&&!this.held&&cv.getAttribute('src'))this.play(cv)}
+ }
+ albumGo(s,k){const st=s._alb;if(st)st.scrollTo({left:k*st.clientWidth,behavior:'smooth'})}
  unmount(slide){
   if(!slide._m)return;slide._m=0;
   const media=slide.querySelector('.media');
   if(this.pool)for(const p of this.pool)if(p.parentNode===media){p.pause();p.remove();p._idx=-1}
-  slide._v=null;media.innerHTML='';
+  media.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');try{v.load()}catch(e){}});
+  slide._v=null;slide._alb=null;media.innerHTML='';
  }
- play(v){v.muted=S.muted;const sl=v.closest('.slide');const p=v.play();if(p&&p.catch)p.catch(e=>{if(e&&e.name==='AbortError')return;if(!v.muted){v.muted=true;S.muted=true;v.play().catch(()=>{if(sl&&v.paused)sl.classList.add('blocked')})}else if(sl&&v.paused)sl.classList.add('blocked')})}
- pauseAll(){if(this.pool)for(const p of this.pool)p.pause()}
+ play(v){v.loop=!S.auto;v.muted=S.muted;const sl=v.closest('.slide');const p=v.play();if(p&&p.catch)p.catch(e=>{if(e&&e.name==='AbortError')return;if(!v.muted){v.muted=true;v.play().catch(()=>{if(sl&&v.paused)sl.classList.add('blocked')})}else if(sl&&v.paused)sl.classList.add('blocked')})}
+ pauseAll(){clearTimeout(this.autoT);this.autoT=null;if(this.pool)for(const p of this.pool)p.pause();this.el.querySelectorAll('.alb video').forEach(v=>v.pause())}
  setVisible(on){
   this.visible=on;
   if(on){
    requestAnimationFrame(()=>{const idx=this.pending!=null?this.pending:this.active;if(idx>=0&&this.el.clientHeight){this.el.scrollTop=idx*this.el.clientHeight;this.pending=null}});
    const s=this.slideAt(this.active);if(s&&s._v)this.play(s._v);
+   this.arm();
   }else this.pauseAll();
  }
  hold(on){
   const s=this.slideAt(this.active);if(!s)return;
   this.held=on;s.classList.toggle('clean',on);
   if(s._v){if(on)s._v.pause();else this.play(s._v)}
+  if(on){clearTimeout(this.autoT);this.autoT=null}else this.arm();
   if(!on){this.suppress=true;setTimeout(()=>this.suppress=false,350)}
+ }
+ /* auto-scroll: photos 5 s, videos until they end */
+ arm(){
+  clearTimeout(this.autoT);this.autoT=null;
+  this.el.classList.toggle('auto',!!S.auto);
+  const s=this.slideAt(this.active),it=this.items[this.active];
+  if(!s||!it)return;
+  const bar=s.querySelector('.prog.ph i');
+  if(bar){bar.style.transition='none';bar.style.width='0'}
+  if(!S.auto||!this.visible||this.held)return;
+  if(it.type==='video')return;
+  if(it.type==='album'){const p=it.parts[s._pi||0];if(p&&p.type==='video')return}
+  if(bar){void bar.offsetWidth;bar.style.transition='width 5s linear';bar.style.width='100%'}
+  this.autoT=setTimeout(()=>{this.autoT=null;this.advance()},5000);
+ }
+ advance(){
+  const s=this.slideAt(this.active),it=this.items[this.active];if(!s||!it)return;
+  if(it.type==='album'&&s._alb){const pi=s._pi||0;if(pi<it.parts.length-1)return this.albumGo(s,pi+1)}
+  const n=this.items.length,j=this.active+1<n?this.active+1:0;
+  if(j===this.active){
+   if(s._alb){s._alb.scrollLeft=0;setTimeout(()=>{this.albumSync(s);this.arm()},60);return}
+   const v=this.cur();if(v){try{v.currentTime=0}catch(e){}this.play(v)}else this.arm();return;
+  }
+  this.el.scrollTo({top:j*this.el.clientHeight,behavior:j===0?'auto':'smooth'});
+ }
+ scrub(e){
+  const pr=e.target.closest('.prog.sc'),s=pr.closest('.slide'),v=s&&s._v;
+  if(!v||!v.duration||!isFinite(v.duration))return;
+  e.preventDefault();clearTimeout(this.holdT);this.holdT=null;
+  try{pr.setPointerCapture(e.pointerId)}catch(_){}
+  pr.classList.add('on');v._scrub=1;v.pause();clearTimeout(this.autoT);
+  const fill=pr.querySelector('i'),lab=pr.querySelector('em');
+  const at=ev=>{const r=pr.getBoundingClientRect();const x=Math.min(1,Math.max(0,(ev.clientX-r.left)/r.width));const t=x*v.duration;try{v.currentTime=t}catch(_){}fill.style.width=(x*100)+'%';lab.textContent=fmtT(t)+' / '+fmtT(v.duration)};
+  at(e);
+  const mv=ev=>{ev.preventDefault();at(ev)};
+  const up=()=>{pr.removeEventListener('pointermove',mv);pr.removeEventListener('pointerup',up);pr.removeEventListener('pointercancel',up);pr.classList.remove('on');v._scrub=0;this.suppress=true;setTimeout(()=>this.suppress=false,350);if(this.visible&&!this.held)this.play(v)};
+  pr.addEventListener('pointermove',mv);pr.addEventListener('pointerup',up);pr.addEventListener('pointercancel',up);
  }
  onClick(e){
   const slide=e.target.closest('.slide');if(!slide)return;
   const it=this.items[+slide.dataset.i];if(!it)return;
   const b=e.target.closest('[data-act]');
   if(b){this.action(b.dataset.act,it,slide,b);return}
-  if(!e.target.closest('.tapzone')||this.suppress)return;
+  if(!e.target.closest('.tapzone,.alb')||this.suppress)return;
   const now=Date.now();
   if(now-(this.lastTap||0)<290){clearTimeout(this.tapT);this.lastTap=0;this.doubleTap(it,slide)}
   else{this.lastTap=now;this.tapT=setTimeout(()=>this.singleTap(it,slide),290)}
  }
  singleTap(it,slide){
-  if(it.type==='video'&&slide._v){
-   if(slide._v.paused){slide.classList.remove('blocked');slide._v.muted=S.muted;slide._v.play().catch(()=>{slide._v.muted=true;S.muted=true;slide._v.play().catch(()=>{})});return}
-   S.muted=!S.muted;
-   if(slide._v)slide._v.muted=S.muted;
-   if(slide._v.paused)this.play(slide._v);
-   const f=slide.querySelector('.flash');f.innerHTML=S.muted?I.volOff:I.volOn;f.classList.remove('go');void f.offsetWidth;f.classList.add('go');
+  const v=slide._v;
+  if(v){
+   if(v.paused){slide.classList.remove('blocked');this.play(v);return}
+   if(Date.now()-(this.autoUnmute||0)>700){S.muted=!v.muted;v.muted=S.muted}
+   const f=slide.querySelector('.flash');f.innerHTML=v.muted?I.volOff:I.volOn;f.classList.remove('go');void f.offsetWidth;f.classList.add('go');
   }else slide.classList.toggle('clean');
  }
  doubleTap(it,slide){
@@ -565,10 +730,11 @@ class Feed{
   b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
   Store.patchItem(it.id,{liked:val}).catch(()=>toast("Couldn't save like"));
  }
- action(a,it,slide){
+ action(a,it,slide,b){
   if(a==='like')return this.like(it,slide,!it.liked);
   if(a==='open'||a==='grid'){setCur(it.spaceId);return show('gallery')}
   if(a==='more')return itemMenu(it);
+  if(a==='tag'){const t=b&&b.dataset.t||'';setCur(it.spaceId);S.q=t;S.gtab='grid';S.select=null;show('gallery');renderGallery(true);$('#galleryView').scrollTop=0;return}
  }
 }
 
@@ -583,7 +749,7 @@ function show(v){
  if(v==='gallery')renderGallery();
  if(v==='settings')renderSettings();
 }
-function setCur(id){if(S.cur===id)return;S.cur=id;LS.set('cur',id);S.select=null;S.gkey='';render()}
+function setCur(id){if(S.cur===id)return;if(S.cur)S.unlocked.delete(S.cur);S.cur=id;LS.set('cur',id);S.select=null;S.q='';S.gkey='';render()}
 
 function render(){
  if(!Store.ready)return;
@@ -602,10 +768,10 @@ function renderTabbar(){
 function renderFeed(){
  const sp=curSpace(),locked=isLocked(sp),list=sp&&!locked?feedItemsOf(sp.id):[];
  const ch=$('#chips');
- const chipKey=spacesSorted().map(s=>s.id+s.name+(isLocked(s)?'L':'')).join()+'|'+S.cur;
+ const chipKey=spacesSorted().map(s=>s.id+s.name+(s.emoji||'')+(s.color||'')+(isLocked(s)?'L':'')+(s.hidden?'H':'')).join()+'|'+S.cur;
  if(ch._k!==chipKey){
   ch._k=chipKey;
-  ch.innerHTML=spacesSorted().map(s=>`<button class="chip${s.id===S.cur?' on':''}" data-sp="${esc(s.id)}">${esc(s.name)}${isLocked(s)?`<span class="lk">${I.lock}</span>`:''}</button>`).join('')+`<button class="chip add" data-new aria-label="New space">${I.plus}</button>`;
+  ch.innerHTML=spacesSorted().map(s=>`<button class="chip${s.id===S.cur?' on':''}" data-sp="${esc(s.id)}"${okColor(s.color)?` style="--c:${s.color}"`:''}>${s.emoji?`<span class="em">${esc(s.emoji)}</span>`:''}${esc(s.name)}${isLocked(s)?`<span class="lk">${I.lock}</span>`:''}${s.hidden?`<span class="lk">${I.eyeOff}</span>`:''}</button>`).join('')+`<button class="chip add" data-new aria-label="New space">${I.plus}</button>`;
   const on=ch.querySelector('.chip.on');if(on)on.scrollIntoView({inline:'center',block:'nearest'});
  }
  mainFeed.setItems(list);
@@ -616,60 +782,92 @@ function renderFeed(){
  else em.classList.remove('on');
 }
 
+/* gallery search by tag */
+function tagCounts(spaceId){const m=new Map();for(const i of Store.items)if(i.spaceId===spaceId)for(const t of i.tags||[])m.set(t,(m.get(t)||0)+1);return [...m].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))}
+const qTerms=()=>String(S.q||'').toLowerCase().split(/[\s,]+/).map(t=>t.replace(/^#+/,'')).filter(Boolean);
+const hasTags=(i,q)=>q.every(t=>(i.tags||[]).some(g=>g===t||g.startsWith(t)));
+function galleryList(sp){
+ const all=itemsOf(sp.id);
+ let l=S.gtab==='video'?all.filter(i=>i.type==='video'):S.gtab==='liked'?all.filter(i=>i.liked):all;
+ const q=qTerms();if(q.length)l=l.filter(i=>hasTags(i,q));
+ return l;
+}
+function gridHTML(list){
+ if(list.length)return `<div class="grid${S.cols<=3?' cols3':''}" style="--cols:${S.cols}">${list.map(tileHTML).join('')}</div>`;
+ const q=qTerms();
+ if(q.length)return `<div class="empty gempty"><div class="circ">${I.tag}</div><h2>No matches</h2><p>Nothing in this space is tagged ${esc(q.map(t=>'#'+t).join(' '))}${S.gtab!=='grid'?' in this tab':''}.</p></div>`;
+ return `<div class="empty gempty"><div class="circ">${S.gtab==='liked'?I.heart:S.gtab==='video'?I.reels:I.image}</div><h2>${S.gtab==='liked'?'No liked posts':S.gtab==='video'?'No videos yet':'No posts yet'}</h2><p>${S.gtab==='liked'?'Double-tap a post in the feed to like it.':'Add photos and videos to this space.'}</p>${S.gtab==='liked'?'':'<button class="pbtn blue" data-add>Add media</button>'}</div>`;
+}
+function searchHTML(sp){
+ const tc=sp?tagCounts(sp.id):[],q=qTerms();
+ return `<div class="gsearch">${I.search}<input id="gq" type="search" placeholder="Search tags" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="search" value="${esc(S.q||'')}"><button data-g="qclear" aria-label="Clear search">×</button></div>`+
+  (tc.length?`<div class="gtags">${tc.slice(0,40).map(([t,c])=>`<button class="gtag${q.length===1&&q[0]===t?' on':''}" data-tq="${esc(t)}">#${esc(t)}<small>${c}</small></button>`).join('')}</div>`:'');
+}
+function gKey(sp,all,list){return JSON.stringify([sp.id,sp.name,sp.emoji,sp.color,sp.noPhoto,sp.hidden,coverRef(sp),list.map(i=>i.id+(i.liked?'1':'0')+(i.thumb||'')),S.cols,S.gtab,!!S.select,!!sp.lock,spacesSorted().map(s=>s.id+s.name+(s.emoji||'')+(s.color||'')+(s.noPhoto?'n':'')+coverRef(s)+(isLocked(s)?'L':'')),all.length,tagCounts(sp.id).join(),S.q,Store.mode])}
+function renderGrid(){
+ const g=$('#galleryView'),sp=curSpace();if(!sp||isLocked(sp))return;
+ const box=$('#ggrid');if(!box)return renderGallery(true);
+ const list=galleryList(sp);S.glist=list;
+ box.innerHTML=gridHTML(list);hydrate(box);
+ const q=qTerms();g.querySelectorAll('.gtag').forEach(b=>b.classList.toggle('on',q.length===1&&q[0]===b.dataset.tq));
+ g._k=gKey(sp,itemsOf(sp.id),list);
+}
 function renderGallery(force){
  const g=$('#galleryView'),sp=curSpace();
- if(!sp){if(g._k!=='none'){g._k='none';g.innerHTML=`<div class="ghead"><div class="title"><span>Spaces</span></div></div><div class="empty gempty"><div class="circ">${I.layers}</div><h2>No spaces yet</h2><p>Create a space to start your gallery.</p><button class="pbtn blue" data-new>New space</button></div>`}return}
+ if(!sp){const k='none';if(force||g._k!==k){g._k=k;g.innerHTML=`<div class="ghead"><div class="title"><span>Spaces</span></div></div>${searchHTML(null)}<div class="empty gempty"><div class="circ">${I.layers}</div><h2>No spaces yet</h2><p>Create a space to start your gallery.</p><button class="pbtn blue" data-new>New space</button></div>`}return}
  if(isLocked(sp)){const k='lock'+sp.id+sp.name;if(force||g._k!==k){g._k=k;g.innerHTML=`<div class="ghead"><button class="title" data-g="switch"><span>${esc(sp.name)}</span>${I.down}</button></div><div class="empty gempty" style="padding-top:90px">${lockHTML(sp)}</div>`}return}
- const all=itemsOf(sp.id),vids=all.filter(i=>i.type==='video'),liked=all.filter(i=>i.liked);
- const list=S.gtab==='video'?vids:S.gtab==='liked'?liked:all;
+ const all=itemsOf(sp.id),list=galleryList(sp);
  S.glist=list;
- const key=JSON.stringify([sp.id,sp.name,coverRef(sp),list.map(i=>i.id+(i.liked?'1':'0')+(i.thumb||'')),S.cols,S.gtab,!!S.select,!!sp.lock,spacesSorted().map(s=>s.id+s.name+coverRef(s)+(isLocked(s)?'L':'')),all.length,vids.length,liked.length,Store.mode]);
- if(!force&&key===g._k)return;g._k=key;
+ const key=gKey(sp,all,list);
+ if(!force&&key===g._k)return;
+ const ae=document.activeElement;if(!force&&ae&&ae.id==='gq'&&$('#ggrid')){renderGrid();return}
+ g._k=key;
  const st=g.scrollTop;
+ const vids=all.filter(i=>i.type==='video').length,albs=all.filter(i=>i.type==='album').length,liked=all.filter(i=>i.liked).length;
  const others=spacesSorted();
  const head=S.select?
-  `<div class="ghead sel"><button class="txtbtn" data-g="selcancel">Cancel</button><div class="title" style="justify-content:center"><span id="selCount">${S.select.size?S.select.size+' selected':'Select items'}</span></div><button class="txtbtn blue" data-g="selmove">Move</button><button class="txtbtn red" data-g="seldel">Delete</button></div>`:
-  `<div class="ghead"><button class="title" data-g="switch"><span>${esc(sp.name)}</span>${I.down}</button><button class="icobtn" data-g="add" aria-label="Add">${I.add}</button><button class="icobtn" data-g="menu" aria-label="Menu">${I.menu}</button></div>`;
- const pics=all.length-vids.length;
+  `<div class="ghead sel"><button class="txtbtn" data-g="selcancel">Cancel</button><div class="title" style="justify-content:center"><span id="selCount">${S.select.size?S.select.size+' selected':'Select items'}</span></div><button class="txtbtn blue" data-g="selact">Actions</button></div>`:
+  `<div class="ghead"><button class="title" data-g="switch">${sp.emoji?`<span class="em">${esc(sp.emoji)}</span>`:''}<span>${esc(sp.name)}</span>${I.down}</button><button class="icobtn" data-g="add" aria-label="Add">${I.add}</button><button class="icobtn" data-g="menu" aria-label="Menu">${I.menu}</button></div>`;
  g.innerHTML=head+
-  `<div class="prof">${avatar(sp,82,true)}<div class="stats"><div><b>${all.length}</b><span>posts</span></div><div><b>${pics}</b><span>photos</span></div><div><b>${vids.length}</b><span>videos</span></div></div></div>
-   <div class="pname">${esc(sp.name)}${sp.lock?` <span style="display:inline-block;width:13px;vertical-align:-1px">${I.lock}</span>`:''}</div>
-   <div class="pbio">${liked.length?liked.length+' liked · ':''}Space ${others.findIndex(s=>s.id===sp.id)+1} of ${others.length}</div>
+  `<div class="prof">${avatar(sp,82,true)}<div class="stats"><div><b>${all.length}</b><span>posts</span></div><div><b>${all.length-vids-albs}</b><span>photos</span></div><div><b>${vids}</b><span>videos</span></div></div></div>
+   <div class="pname">${esc(sp.name)}${sp.lock?` <span style="display:inline-block;width:13px;vertical-align:-1px">${I.lock}</span>`:''}${sp.hidden?` <span class="hid">${I.eyeOff}</span>`:''}</div>
+   <div class="pbio">${liked?liked+' liked · ':''}${albs?albs+' album'+(albs>1?'s':'')+' · ':''}Space ${others.findIndex(s=>s.id===sp.id)+1} of ${others.length}</div>
    <div class="pbtns"><button class="pbtn" data-g="edit">Edit space</button><button class="pbtn" data-g="play">Play reels</button><button class="pbtn" data-g="add">Add media</button></div>
    <div class="hl">${others.map(s=>`<button data-hl="${esc(s.id)}">${avatar(s,58,true,s.id===sp.id)}<span class="lbl">${esc(s.name)}</span></button>`).join('')}<button data-g="new"><span class="newc">${I.plus}</span><span class="lbl">New</span></button></div>
+   ${searchHTML(sp)}
    <div class="gtabs"><button data-tab2="grid" class="${S.gtab==='grid'?'on':''}" aria-label="All">${I.grid}</button><button data-tab2="video" class="${S.gtab==='video'?'on':''}" aria-label="Videos">${I.reels}</button><button data-tab2="liked" class="${S.gtab==='liked'?'on':''}" aria-label="Liked">${I.heart}</button></div>
-   ${list.length?`<div class="grid${S.cols<=3?' cols3':''}" style="--cols:${S.cols}">${list.map(tileHTML).join('')}</div>`:
-    `<div class="empty gempty"><div class="circ">${S.gtab==='liked'?I.heart:S.gtab==='video'?I.reels:I.image}</div><h2>${S.gtab==='liked'?'No liked posts':S.gtab==='video'?'No videos yet':'No posts yet'}</h2><p>${S.gtab==='liked'?'Double-tap a post in the feed to like it.':'Add photos and videos to this space.'}</p>${S.gtab==='liked'?'':'<button class="pbtn blue" data-add>Add media</button>'}</div>`}
-   ${Store.mode==='local'?'<div class="note">Saved on this iPhone</div>':''}`;
+   <div id="ggrid">${gridHTML(list)}</div>
+   ${Store.mode==='local'?`<div class="note">${NOTE_LOCAL}</div>`:''}`;
  hydrate(g);g.scrollTop=st;
 }
 function tileHTML(it){
  const t=it.thumb||(it.type==='image'?it.src:null);
  const sel=S.select&&S.select.has(it.id);
- return `<div class="tile${sel?' sel':''}" data-id="${esc(it.id)}">${t?`<img loading="lazy" alt="" data-src="${esc(t)}">`:(it.type==='video'?`<video muted playsinline preload="metadata" data-vsrc="${esc(it.src)}"></video>`:'')}${it.type==='video'?`<span class="badge">${I.play}${S.cols<=3&&it.dur?fmtDur(it.dur):''}</span>`:''}${it.liked&&!S.select?`<span class="lk">${I.heartF}</span>`:''}${S.select?'<span class="chk"></span>':''}</div>`;
+ const badge=it.type==='video'?`<span class="badge">${I.play}${S.cols<=3&&it.dur?fmtDur(it.dur):''}</span>`:it.type==='album'?`<span class="badge">${I.album}</span>`:'';
+ return `<div class="tile${sel?' sel':''}" data-id="${esc(it.id)}">${t?`<img loading="lazy" alt="" data-src="${esc(t)}">`:(it.type==='video'?`<video muted playsinline preload="metadata" data-vsrc="${esc(it.src)}"></video>`:'')}${badge}${it.liked&&!S.select?`<span class="lk">${I.heartF}</span>`:''}${S.select?'<span class="chk"></span>':''}</div>`;
 }
 
-function openViewer(list,id){
- S.vlist=list.map(i=>i.id);S.vtab=S.gtab;
- const sp=curSpace();$('#vtitle').textContent=sp?sp.name:'Posts';
+function openViewer(list,id,title){
+ S.vlist=list.map(i=>i.id);S.vtitle=title||null;
+ const sp=curSpace();$('#vtitle').textContent=title||(sp?sp.name:'Posts');
  show('viewer');viewFeed.setItems(list,id);
 }
 function refreshViewer(){
  const sp=curSpace();if(!sp||isLocked(sp)){show('gallery');return}
- const all=itemsOf(sp.id);
- const list=S.vtab==='video'?all.filter(i=>i.type==='video'):S.vtab==='liked'?all.filter(i=>S.vlist.includes(i.id)):all;
+ const list=itemsOf(sp.id).filter(i=>S.vlist.includes(i.id));
  if(!list.length){show('gallery');return}
- $('#vtitle').textContent=sp.name;viewFeed.setItems(list);
+ $('#vtitle').textContent=S.vtitle||sp.name;viewFeed.setItems(list);
 }
 
 /* ---------- sheets & dialogs ---------- */
-const sheetState={kind:null,resolve:null};
+const sheetState={kind:null,resolve:null,onclick:null,oninput:null,onkey:null};
 function openSheet(html,kind){
+ sheetState.onclick=sheetState.oninput=sheetState.onkey=null;
  const bg=$('#sheetBg');bg.innerHTML=`<div class="sheet"><div class="grab"></div>${html}</div>`;
  sheetState.kind=kind||'menu';requestAnimationFrame(()=>bg.classList.add('open'));return bg;
 }
 function closeSheet(v){
- const bg=$('#sheetBg');bg.classList.remove('open');sheetState.kind=null;
+ const bg=$('#sheetBg');bg.classList.remove('open');sheetState.kind=null;sheetState.onclick=sheetState.oninput=sheetState.onkey=null;const ae=document.activeElement;if(ae&&bg.contains(ae))ae.blur();
  const r=sheetState.resolve;sheetState.resolve=null;if(r)r(v);
 }
 function menu(title,opts){
@@ -681,22 +879,53 @@ function menu(title,opts){
 $('#sheetBg').addEventListener('click',e=>{
  const bg=$('#sheetBg');
  if(e.target===bg)return closeSheet(-1);
+ if(sheetState.onclick&&sheetState.onclick(e))return;
  const o=e.target.closest('[data-o]');if(o)return closeSheet(+o.dataset.o);
+ if(S.reorder){if(e.target.closest('[data-rodone]')){S.reorder=false;openSwitcher(true)}return}
+ if(e.target.closest('[data-reorder]')){S.reorder=true;return openSwitcher(true)}
  const p=e.target.closest('[data-pick]');if(p){closeSheet(-1);setCur(p.dataset.pick);if(S.view==='viewer')show('gallery');return toast(Store.spaces.find(s=>s.id===p.dataset.pick)?.name||'')}
- const ed=e.target.closest('[data-editsp]');if(ed){closeSheet(-1);const sp=Store.spaces.find(s=>s.id===ed.dataset.editsp);if(sp){if(isLocked(sp))unlockSpace(sp).then(ok=>ok&&editSpace(sp));else editSpace(sp)}return}
+ const ed=e.target.closest('[data-editsp]');if(ed){closeSheet(-1);const sp=Store.spaces.find(s=>s.id===ed.dataset.editsp);if(sp){if(isLocked(sp))unlockSpace(sp).then(ok=>ok&&editSpace(sp)).finally(()=>{if(sp.id!==S.cur){S.unlocked.delete(sp.id);render()}});else editSpace(sp)}return}
  if(e.target.closest('[data-new]')){closeSheet(-1);createSpace()}
 });
+$('#sheetBg').addEventListener('input',e=>{if(sheetState.oninput)sheetState.oninput(e)});
+$('#sheetBg').addEventListener('keydown',e=>{if(sheetState.onkey)sheetState.onkey(e)});
 function openSwitcher(refresh){
  if(refresh&&sheetState.kind!=='switcher')return;
- const html=`<h4>Spaces</h4>`+spacesSorted().map(s=>`<div class="row"><button class="pick" data-pick="${esc(s.id)}">${avatar(s,52,false)}<div style="min-width:0"><div class="nm">${esc(s.name)}</div><div class="ct">${countOf(s.id)} posts</div></div></button><button class="icobtn" data-editsp="${esc(s.id)}" aria-label="Edit">${I.more}</button><span class="radio${s.id===S.cur?' on':''}"></span></div>`).join('')+
-  `<button class="opt" data-new>${I.plus}<span>New space</span></button>`;
- if(refresh){const sh=$('#sheetBg .sheet');if(sh){sh.innerHTML='<div class="grab"></div>'+html;hydrate(sh)}return}
+ if(!refresh)S.reorder=false;
+ const ro=S.reorder,list=spacesSorted();
+ const html=`<h4>${ro?'Drag to reorder':'Spaces'}</h4>`+list.map(s=>`<div class="row${ro?' ro':''}" data-rid="${esc(s.id)}"><button class="pick"${ro?'':` data-pick="${esc(s.id)}"`}>${avatar(s,52,false)}<div style="min-width:0"><div class="nm">${esc(s.name)}${s.hidden?` <span class="hid">${I.eyeOff}</span>`:''}</div><div class="ct">${isLocked(s)?'Locked':countOf(s.id)+' posts'}</div></div></button>${ro?`<span class="handle" data-h aria-label="Drag">${I.grip}</span>`:`<button class="icobtn" data-editsp="${esc(s.id)}" aria-label="Edit">${I.more}</button><span class="radio${s.id===S.cur?' on':''}"></span>`}</div>`).join('')+
+  (ro?`<button class="opt" data-rodone style="color:var(--blue);font-weight:700">${I.check}<span>Done</span></button>`:`<button class="opt" data-new>${I.plus}<span>New space</span></button>${list.length>1?`<button class="opt" data-reorder>${I.grip}<span>Reorder spaces</span></button>`:''}`);
+ if(refresh){const sh=$('#sheetBg .sheet');if(sh&&!sh._drag){sh.innerHTML='<div class="grab"></div>'+html;hydrate(sh)}return}
  const bg=openSheet(html,'switcher');hydrate(bg);
 }
-function dialog({title,msg,input,ok='OK',danger}){
+// drag the handle to reorder spaces
+$('#sheetBg').addEventListener('pointerdown',e=>{
+ const h=e.target.closest('[data-h]');if(!h)return;
+ e.preventDefault();
+ const row=h.closest('.row'),sh=row.parentNode;sh._drag=1;
+ try{h.setPointerCapture(e.pointerId)}catch(_){}
+ let y0=e.clientY;row.classList.add('drag');
+ const mv=ev=>{
+  let dy=ev.clientY-y0;
+  const nx=row.nextElementSibling,pv=row.previousElementSibling;
+  if(nx&&nx.classList.contains('row')&&dy>nx.offsetHeight/2){sh.insertBefore(nx,row);y0+=nx.offsetHeight;dy=ev.clientY-y0}
+  else if(pv&&pv.classList.contains('row')&&dy<-pv.offsetHeight/2){sh.insertBefore(row,pv);y0-=pv.offsetHeight;dy=ev.clientY-y0}
+  row.style.transform=`translateY(${dy}px)`;
+ };
+ const up=async()=>{
+  h.removeEventListener('pointermove',mv);h.removeEventListener('pointerup',up);h.removeEventListener('pointercancel',up);
+  row.style.transform='';row.classList.remove('drag');
+  const ids=[...sh.querySelectorAll('.row[data-rid]')].map(r=>r.dataset.rid);
+  const ch=[];ids.forEach((id,k)=>{const s=Store.spaces.find(x=>x.id===id);if(s&&s.order!==k)ch.push([id,{order:k}])});
+  sh._drag=0;
+  if(ch.length){try{await Store.patchSpaces(ch)}catch(err){toast("Couldn't save the new order")}}
+ };
+ h.addEventListener('pointermove',mv);h.addEventListener('pointerup',up);h.addEventListener('pointercancel',up);
+});
+function dialog({title,msg,input,ok='OK',danger,ph}){
  return new Promise(res=>{
   const bg=$('#dlgBg');
-  bg.innerHTML=`<div class="dlg"><h3>${esc(title)}</h3>${msg?`<p>${esc(msg)}</p>`:''}${input!=null?`<input id="dlgIn" maxlength="40" placeholder="Space name" autocomplete="off" value="${esc(input)}">`:''}<div class="btns"><button data-r="1" class="${danger?'danger':'primary'}">${esc(ok)}</button><button data-r="0">Cancel</button></div></div>`;
+  bg.innerHTML=`<div class="dlg"><h3>${esc(title)}</h3>${msg?`<p>${esc(msg)}</p>`:''}${input!=null?`<input id="dlgIn" maxlength="40" placeholder="${esc(ph||'Space name')}" autocomplete="off" value="${esc(input)}">`:''}<div class="btns"><button data-r="1" class="${danger?'danger':'primary'}">${esc(ok)}</button><button data-r="0">Cancel</button></div></div>`;
   requestAnimationFrame(()=>bg.classList.add('open'));
   const inp=$('#dlgIn');if(inp){setTimeout(()=>{inp.focus();inp.select()},60)}
   const done=v=>{bg.classList.remove('open');bg.onclick=null;setTimeout(()=>{if(!bg.classList.contains('open'))bg.innerHTML=''},250);res(v)};
@@ -713,9 +942,11 @@ $('#bannerX').onclick=()=>{const b=$('#banner');b.classList.remove('on');if(b._f
 /* ---------- actions ---------- */
 async function createSpace(){
  const name=await dialog({title:'New space',input:'',ok:'Create'});if(!name)return null;
- const s={id:uid(),name:name.slice(0,40),createdAt:Date.now()};
+ const mx=Store.spaces.reduce((m,s)=>Math.max(m,spOrd(s)),0);
+ const s={id:uid(),name:name.slice(0,40),createdAt:Date.now(),order:Math.floor(mx)+1};
  try{await Store.putSpace(s)}catch(e){toast("Couldn't create space");return null}
- S.cur=s.id;LS.set('cur',s.id);S.gkey='';render();toast('Created "'+s.name+'"');
+ if(S.cur&&S.cur!==s.id)S.unlocked.delete(S.cur);
+ S.cur=s.id;LS.set('cur',s.id);S.q='';S.gkey='';render();toast('Created "'+s.name+'"');
  return s;
 }
 async function renameSpace(sp){
@@ -725,38 +956,41 @@ async function renameSpace(sp){
 async function deleteSpace(sp){
  if(isLocked(sp)&&!(await unlockSpace(sp)))return;
  const its=Store.items.filter(i=>i.spaceId===sp.id);
- const ok=await dialog({title:`Delete "${sp.name}"?`,msg:its.length?`This deletes the space and its ${its.length} photo${its.length===1?'':'s'} and videos. You can't undo this.`:"You can't undo this.",ok:'Delete',danger:true});
+ const ok=await dialog({title:`Delete "${sp.name}"?`,msg:its.length?`This deletes the space and its ${its.length} post${its.length===1?'':'s'}. You can't undo this.`:"You can't undo this.",ok:'Delete',danger:true});
  if(!ok)return;
  try{
   for(let k=0;k<its.length;k++){progress(`Deleting ${k+1} of ${its.length}…`);await Store.delItem(its[k])}
   await Store.delSpace(sp.id);
  }catch(e){toast("Couldn't delete everything. Try again.")}
- progressDone();
+ progressDone();S.unlocked.delete(sp.id);
  if(S.cur===sp.id){const rest=spacesSorted().filter(s=>s.id!==sp.id);S.cur=rest[0]?rest[0].id:null;LS.set('cur',S.cur)}
  S.gkey='';if(S.view==='viewer')show('gallery');render();toast('Space deleted');
 }
 function editSpace(sp){
  return menu(sp.name,[
   {label:'Rename',icon:I.edit,fn:()=>renameSpace(sp)},
+  {label:'Icon & colour',icon:I.palette,fn:()=>iconSheet(sp)},
   {label:'Add photos & videos',icon:I.add,fn:()=>{setCur(sp.id);pick()}},
   ...(sp.lock?[
    {label:'Lock now',icon:I.lock,fn:()=>{S.unlocked.delete(sp.id);if(S.view==='viewer')show('gallery');render();renderGallery(true);toast('Locked')}},
    {label:'Change passcode',icon:I.edit,fn:()=>setLock(sp)},
    {label:'Remove passcode',icon:I.unlock,fn:()=>removeLock(sp)},
   ]:[{label:'Lock with passcode',icon:I.lock,fn:()=>setLock(sp)}]),
+  sp.hidden?{label:'Unhide space',icon:I.eye,fn:()=>hideSpace(sp,false)}:{label:'Hide space',icon:I.eyeOff,fn:()=>hideSpace(sp,true)},
   {label:'Delete space',icon:I.trash,red:true,fn:()=>deleteSpace(sp)},
  ]);
 }
-function lockHTML(sp){return `<div class="circ">${I.lock}</div><h2>${esc(sp.name)} is locked</h2><p>Enter the passcode to see this space.</p><button class="pbtn blue" data-unlock="${esc(sp.id)}">Unlock</button>`}
+function lockHTML(sp){return `<div class="circ">${I.lock}</div><h2>${esc(sp.name)} is locked</h2><p>${faceOn()?'Use Face ID or your passcode to see this space.':'Enter the passcode to see this space.'}</p><button class="pbtn blue" data-unlock="${esc(sp.id)}">Unlock</button>`}
 async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-function pinPad({title,sub,check}){
+function pinPad({title,sub,check,face}){
  return new Promise(res=>{
   const bg=$('#pinBg');let v='';
-  bg.innerHTML=`<div class="pt">${esc(title)}</div><div class="ps" id="pinSub">${esc(sub||'')}</div><div class="dots" id="pinDots">${'<i></i>'.repeat(4)}</div><div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}<button class="nob" data-k="x">Cancel</button><button data-k="0">0</button><button class="nob" data-k="b">Delete</button></div>`;
+  bg.innerHTML=`<div class="pt">${esc(title)}</div><div class="ps" id="pinSub">${esc(sub||'')}</div><div class="dots" id="pinDots">${'<i></i>'.repeat(4)}</div><div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}<button class="nob" data-k="x">Cancel</button><button data-k="0">0</button><button class="nob" data-k="b">Delete</button></div>${face?`<button class="facebtn" data-k="f">${I.face}<span>Use Face ID</span></button>`:''}`;
   bg.classList.add('open');
   const dots=()=>[...bg.querySelectorAll('.dots i')].forEach((d,i)=>d.classList.toggle('f',i<v.length));
   const close=r=>{bg.classList.remove('open');bg.onclick=null;bg.innerHTML='';res(r)};
   bg.onclick=async e=>{const b=e.target.closest('[data-k]');if(!b)return;const k=b.dataset.k;
+   if(k==='f'){faceVerify().then(r=>{if(r)close('face')});return}
    if(k==='x')return close(null);if(k==='b'){v=v.slice(0,-1);return dots()}
    if(v.length>=4)return;v+=k;dots();
    if(v.length===4){const val=v;
@@ -764,10 +998,30 @@ function pinPad({title,sub,check}){
     const d=$('#pinDots');d.classList.remove('shake');void d.offsetWidth;d.classList.add('shake');const ps=$('#pinSub');ps.textContent='Wrong passcode. Try again.';ps.classList.add('err');if(navigator.vibrate)navigator.vibrate(60);setTimeout(()=>{v='';dots()},400)}};
  });
 }
+/* Face ID (WebAuthn platform authenticator) */
+const b64u=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb64u=s=>{s=String(s).replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return Uint8Array.from(atob(s),c=>c.charCodeAt(0))};
+const rnd=n=>crypto.getRandomValues(new Uint8Array(n));
+const faceOn=()=>!!(LS.get('faceid',false)&&LS.get('fid',null)&&window.PublicKeyCredential&&navigator.credentials);
+async function faceEnroll(){
+ busy(true);
+ try{
+  const c=await navigator.credentials.create({publicKey:{challenge:rnd(32),rp:{name:'Spaces'},user:{id:rnd(16),name:'Spaces',displayName:'Spaces'},pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',residentKey:'discouraged'},timeout:60000,attestation:'none'}});
+  if(!c)return false;LS.set('fid',b64u(c.rawId));LS.set('faceid',true);return true;
+ }catch(e){console.warn(e);return false}finally{setTimeout(()=>busy(false),500)}
+}
+async function faceVerify(){
+ if(!faceOn())return false;busy(true);
+ try{
+  const a=await navigator.credentials.get({publicKey:{challenge:rnd(32),allowCredentials:[{type:'public-key',id:unb64u(LS.get('fid','')),transports:['internal']}],userVerification:'required',timeout:60000}});
+  return !!a;
+ }catch(e){console.warn(e);return false}finally{setTimeout(()=>busy(false),500)}
+}
 async function unlockSpace(sp){
  if(!isLocked(sp))return true;
- const p=await pinPad({title:'Enter passcode',sub:sp.name,check:async x=>(await sha(sp.lock.salt+x))===sp.lock.hash});
- if(!p)return false;
+ const check=async x=>(await sha(sp.lock.salt+x))===sp.lock.hash;
+ const ok=faceOn()?await faceVerify():false;
+ if(!ok){const p=await pinPad({title:'Enter passcode',sub:sp.name,check,face:faceOn()});if(!p)return false}
  S.unlocked.add(sp.id);S.gkey='';mainFeed.key='';render();renderGallery(true);return true;
 }
 async function setLock(sp){
@@ -783,26 +1037,158 @@ async function removeLock(sp){
  const p=await pinPad({title:'Enter passcode',sub:'to remove the lock',check:async x=>(await sha(sp.lock.salt+x))===sp.lock.hash});if(!p)return;
  try{await Store.patchSpace(sp.id,{lock:null});toast('Passcode removed');renderGallery(true)}catch(e){toast("Couldn't remove passcode")}
 }
+/* hidden spaces */
+async function setHidCode(){
+ const a=await dialog({title:'Hidden spaces code',msg:'Choose a secret code of 4 or more letters or numbers. To show hidden spaces, type it in the search box in the gallery.',input:'',ok:'Next',ph:'Secret code'});
+ if(!a)return false;const c=a.trim().toLowerCase();if(c.length<4){toast('Use at least 4 characters');return false}
+ const b=await dialog({title:'Type the code again',input:'',ok:'Save',ph:'Secret code'});if(!b)return false;
+ if(b.trim().toLowerCase()!==c){toast("Codes didn't match. Try again.");return false}
+ const salt=uid();LS.set('hid',{salt,hash:await sha(salt+c)});toast('Hidden spaces code saved');return true;
+}
+async function removeHidCode(){
+ const ok=await dialog({title:'Remove the code?',msg:'Any hidden spaces will become visible again.',ok:'Remove',danger:true});if(!ok)return;
+ const hs=Store.spaces.filter(s=>s.hidden);
+ if(hs.length){try{await Store.patchSpaces(hs.map(s=>[s.id,{hidden:false}]))}catch(e){return toast("Couldn't unhide spaces")}}
+ try{localStorage.removeItem('spc_hid')}catch(e){}
+ toast('Code removed');
+}
+async function hideSpace(sp,on){
+ if(on){
+  if(!LS.get('hid',null)&&!(await setHidCode()))return;
+  try{await Store.patchSpace(sp.id,{hidden:true})}catch(e){return toast("Couldn't hide the space")}
+  hideHiddenNow();toast('Space hidden. Type your code in the gallery search to show it.');
+ }else{try{await Store.patchSpace(sp.id,{hidden:false});toast('Space is visible again')}catch(e){toast("Couldn't unhide")}}
+}
+function hideHiddenNow(){
+ S.showHidden=false;for(const s of Store.spaces)if(s.hidden)S.unlocked.delete(s.id);
+ S.gkey='';mainFeed.key='';if(S.view==='viewer')show('gallery');render();renderGallery(true);
+}
+async function checkHidCode(v){
+ const h=LS.get('hid',null);v=String(v||'').trim().toLowerCase();if(!h||v.length<4||S.showHidden)return false;
+ if((await sha(h.salt+v))!==h.hash)return false;
+ const inp=$('#gq');if(inp&&inp.value.trim().toLowerCase()!==v)return false;
+ S.showHidden=true;S.q='';if(inp){inp.value='';inp.blur()}S.gkey='';render();renderGallery(true);
+ toast(Store.spaces.some(s=>s.hidden)?'Hidden spaces shown':'No hidden spaces yet');return true;
+}
+/* icon & colour */
+const SWATCH=['#ff3040','#ff8a00','#ffc24b','#34c759','#00c7be','#0095f6','#5856d6','#b33bdb','#ff2d92','#8e8e93'];
+const firstG=s=>{s=String(s||'').trim();if(!s)return'';try{if(window.Intl&&Intl.Segmenter){const r=new Intl.Segmenter().segment(s)[Symbol.iterator]().next();return r.value?r.value.segment:''}}catch(e){}return [...s].slice(0,2).join('')};
+function iconSheet(sp0){
+ const st={emoji:sp0.emoji||'',color:sp0.color||'',noPhoto:!!sp0.noPhoto};
+ const prev=()=>avatar({...sp0,...st,lock:null},84);
+ const draw=()=>{
+  const h=`<h4>Icon & colour</h4><div class="icprev">${prev()}</div>
+  <div class="icrow"><input id="emIn" placeholder="Type an emoji or letter" value="${esc(st.emoji)}" autocomplete="off"><button class="txtbtn" data-ic="clearem">Clear</button></div>
+  <div class="set-sec" style="padding-top:6px">Colour</div><div class="swatches"><button class="swt none${st.color?'':' on'}" data-ic="col" data-c="">Auto</button>${SWATCH.map(c=>`<button class="swt${st.color===c?' on':''}" data-ic="col" data-c="${c}" style="background:${c}" aria-label="${c}"></button>`).join('')}</div>
+  <div class="set-card" style="margin:12px"><button class="set-row" data-ic="photo"><span class="ic">${I.image}</span><span class="tx"><b>Show cover photo</b><small>Turn off to show the emoji and colour instead of a photo.</small></span><span class="sw${st.noPhoto?'':' on'}"></span></button></div>
+  <button class="opt" data-ic="save" style="color:var(--blue);font-weight:700">${I.check}<span>Save</span></button>`;
+  const sh=$('#sheetBg .sheet');if(sh&&sheetState.kind==='icon')sh.innerHTML='<div class="grab"></div>'+h;else openSheet(h,'icon');
+  hydrate($('#sheetBg'));
+ };
+ draw();
+ sheetState.onclick=e=>{const b=e.target.closest('[data-ic]');if(!b)return true;const a=b.dataset.ic;
+  if(a==='clearem'){st.emoji='';draw()}
+  if(a==='col'){st.color=b.dataset.c;draw()}
+  if(a==='photo'){st.noPhoto=!st.noPhoto;draw()}
+  if(a==='save'){closeSheet(-1);Store.patchSpace(sp0.id,{emoji:st.emoji||null,color:st.color||null,noPhoto:st.noPhoto}).then(()=>toast('Saved')).catch(()=>toast("Couldn't save"))}
+  return true};
+ sheetState.oninput=e=>{if(e.target.id!=='emIn')return;st.emoji=firstG(e.target.value);const p=$('.icprev');if(p){p.innerHTML=prev();hydrate(p)}};
+}
 async function moveItems(ids){
  const targets=spacesSorted().filter(s=>s.id!==S.cur);
  if(!targets.length){toast('Create another space first');return false}
- return menu('Move to',targets.map(t=>({label:t.name,icon:avatarIcon(t),sub:countOf(t.id)+' posts',fn:async()=>{
-  for(const id of ids){try{await Store.patchItem(id,{spaceId:t.id})}catch(e){}}
+ return menu('Move to',targets.map(t=>({label:t.name,icon:avatarIcon(t),sub:isLocked(t)?'Locked':countOf(t.id)+' posts',fn:async()=>{
+  try{await Store.patchItems(ids.map(id=>[id,{spaceId:t.id}]))}catch(e){}
   toast(`Moved ${ids.length} to ${t.name}`);return true;
  }})));
 }
-const avatarIcon=s=>avatar(s,26).replace('class="av"','class="av" ').replace(/data-bg="[^"]*"/,'');
+const avatarIcon=s=>avatar(s,26).replace(/data-bg="[^"]*"/,'');
 function itemMenu(it){
  const sp=Store.spaces.find(s=>s.id===it.spaceId);
+ const n=(it.tags||[]).length;
  return menu('',[
   {label:it.liked?'Unlike':'Like',icon:it.liked?I.heartF:I.heart,fn:()=>Store.patchItem(it.id,{liked:!it.liked})},
-  {label:'Use as space picture',icon:I.star,fn:async()=>{if(sp){await Store.patchSpace(sp.id,{cover:it.id});toast('Space picture updated')}}},
+  {label:n?'Edit tags':'Add tags',icon:I.tag,sub:n?n+' tag'+(n>1?'s':''):'',fn:()=>tagSheet([it.id])},
+  {label:'Use as space picture',icon:I.star,fn:async()=>{if(sp){await Store.patchSpace(sp.id,{cover:it.id,noPhoto:false});toast('Space picture updated')}}},
+  ...(it.type==='album'?[{label:'Split album into posts',icon:I.album,fn:()=>splitAlbum(it)}]:[]),
   {label:'Move to another space',icon:I.move,fn:()=>moveItems([it.id])},
   {label:'Delete',icon:I.trash,red:true,fn:async()=>{
-   const ok=await dialog({title:'Delete this post?',msg:"It will be removed from this space. You can't undo this.",ok:'Delete',danger:true});
+   const ok=await dialog({title:it.type==='album'?'Delete this album?':'Delete this post?',msg:it.type==='album'?`All ${it.parts.length} items in it will be removed. You can't undo this.`:"It will be removed from this space. You can't undo this.",ok:'Delete',danger:true});
    if(ok){try{await Store.delItem(it);toast('Deleted')}catch(e){toast("Couldn't delete")}}
   }},
  ]);
+}
+/* tags */
+function tagSheet(ids){
+ const its=()=>ids.map(id=>Store.items.find(i=>i.id===id)).filter(Boolean);
+ const draw=()=>{
+  const L=its();if(!L.length)return closeSheet(-1);
+  const cnt=new Map();L.forEach(i=>(i.tags||[]).forEach(t=>cnt.set(t,(cnt.get(t)||0)+1)));
+  const sug=tagCounts(L[0].spaceId).map(x=>x[0]).filter(t=>cnt.get(t)!==L.length).slice(0,30);
+  const h=`<h4>${L.length>1?'Tags for '+L.length+' posts':'Tags'}</h4>
+   <div class="tagbox">${cnt.size?[...cnt].map(([t,c])=>`<span class="tg">#${esc(t)}${L.length>1&&c<L.length?` <small>${c}/${L.length}</small>`:''}<button data-tagrm="${esc(t)}" aria-label="Remove tag">×</button></span>`).join(''):'<span class="tnone">No tags yet. Add one below.</span>'}</div>
+   <div class="tagin"><input id="tagIn" placeholder="Add tags, like beach or sunset" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done"><button class="txtbtn blue" data-tagadd>Add</button></div>
+   ${sug.length?`<div class="set-sec" style="padding-top:8px">Tags in this space</div><div class="tagbox">${sug.map(t=>`<button class="tg sug" data-tagsug="${esc(t)}">#${esc(t)}</button>`).join('')}</div>`:''}
+   <button class="opt" data-tagdone style="color:var(--blue);font-weight:700">${I.check}<span>Done</span></button>`;
+  const sh=$('#sheetBg .sheet');if(sh&&sheetState.kind==='tags')sh.innerHTML='<div class="grab"></div>'+h;else openSheet(h,'tags');
+ };
+ const add=async(raw,refocus)=>{const tags=normTags(raw);if(!tags.length)return;
+  await Store.patchItems(its().map(it=>{const s=new Set(it.tags||[]);tags.forEach(t=>s.add(t));return[it.id,{tags:[...s]}]})).catch(()=>toast("Couldn't save tags"));
+  draw();if(refocus){const i=$('#tagIn');if(i)i.focus()}};
+ const rm=async t=>{await Store.patchItems(its().filter(it=>(it.tags||[]).includes(t)).map(it=>[it.id,{tags:it.tags.filter(x=>x!==t)}])).catch(()=>toast("Couldn't save tags"));draw()};
+ draw();
+ sheetState.onclick=e=>{
+  if(e.target.closest('[data-tagadd]')){const i=$('#tagIn');if(i&&i.value.trim())add(i.value,true);return true}
+  const r=e.target.closest('[data-tagrm]');if(r){rm(r.dataset.tagrm);return true}
+  const s=e.target.closest('[data-tagsug]');if(s){add(s.dataset.tagsug);return true}
+  if(e.target.closest('[data-tagdone]')){const i=$('#tagIn');if(i&&i.value.trim())add(i.value);closeSheet(-1);return true}
+  return true};
+ sheetState.onkey=e=>{if(e.target.id==='tagIn'&&e.key==='Enter'){e.preventDefault();if(e.target.value.trim())add(e.target.value,true)}};
+}
+/* albums */
+const PART_KEYS=['type','src','thumb','w','h','dur','size','fp'];
+const partOf=it=>{const p={};for(const k of PART_KEYS)if(it[k]!=null)p[k]=it[k];return p};
+function albumOf(parts,base){const f=parts[0];return Object.assign(base,{type:'album',parts,src:f.src,thumb:f.thumb||(f.type==='image'?f.src:null),size:parts.reduce((n,p)=>n+(p.size||0),0)})}
+async function makeAlbum(ids){
+ const its=(S.glist||[]).filter(i=>ids.includes(i.id));
+ if(its.length<2){toast('Select 2 or more posts');return false}
+ const parts=[];for(const it of its){if(it.type==='album')parts.push(...it.parts.map(p=>({...p})));else parts.push(partOf(it))}
+ const tags=[...new Set(its.flatMap(i=>i.tags||[]))];
+ const al=albumOf(parts,{id:uid(),spaceId:its[0].spaceId,createdAt:Math.max(...its.map(i=>i.createdAt||0)),liked:its.some(i=>i.liked)});
+ if(tags.length)al.tags=tags;
+ try{
+  await Store.addItems([al]);await Store.delRecords(its.map(i=>i.id));
+  const sp=Store.spaces.find(s=>s.id===al.spaceId);if(sp&&ids.includes(sp.cover))await Store.patchSpace(sp.id,{cover:al.id});
+  toast(`Made an album of ${parts.length}`);return true;
+ }catch(e){toast("Couldn't make the album");return false}
+}
+async function splitAlbum(al){
+ const base=al.createdAt||Date.now();
+ const news=al.parts.map((p,k)=>{const it={...p,id:uid(),spaceId:al.spaceId,createdAt:base-k,liked:!!al.liked};if(al.tags&&al.tags.length)it.tags=[...al.tags];return it});
+ try{
+  await Store.addItems(news);await Store.delRecords([al.id]);
+  if(S.vlist&&S.vlist.includes(al.id))S.vlist.push(...news.map(n=>n.id));
+  const sp=Store.spaces.find(s=>s.id===al.spaceId);if(sp&&sp.cover===al.id)await Store.patchSpace(sp.id,{cover:news[0].id});
+  toast(`Split into ${news.length} posts`);
+ }catch(e){toast("Couldn't split the album")}
+}
+/* selection */
+function selActions(){
+ const ids=[...S.select],all=S.glist||[];
+ return menu(ids.length?ids.length+' selected':'Nothing selected',[
+  {label:ids.length&&ids.length===all.length?'Deselect all':'Select all',icon:I.select,fn:()=>{S.select=ids.length&&ids.length===all.length?new Set():new Set(all.map(i=>i.id));renderGallery(true)}},
+  ...(ids.length?[
+   {label:'Add or remove tags',icon:I.tag,fn:()=>tagSheet(ids)},
+   ...(ids.length>1?[{label:'Make an album',icon:I.album,fn:()=>makeAlbum(ids).then(ok=>{if(ok){S.select=null;renderGallery(true)}})}]:[]),
+   {label:'Move to another space',icon:I.move,fn:()=>moveItems(ids).then(r=>{if(r){S.select=null;renderGallery(true)}})},
+   {label:'Delete',icon:I.trash,red:true,fn:()=>delSelected(ids)},
+  ]:[]),
+ ]);
+}
+async function delSelected(ids){
+ const ok=await dialog({title:`Delete ${ids.length} post${ids.length>1?'s':''}?`,msg:"You can't undo this.",ok:'Delete',danger:true});if(!ok)return;
+ for(let k=0;k<ids.length;k++){progress(`Deleting ${k+1} of ${ids.length}…`);const it=Store.items.find(i=>i.id===ids[k]);if(it){try{await Store.delItem(it)}catch(e){}}}
+ progressDone();S.select=null;renderGallery(true);toast('Deleted');
 }
 function galleryMenu(){
  const sp=curSpace();
@@ -816,70 +1202,267 @@ function galleryMenu(){
   {label:'Edit space',icon:I.edit,fn:()=>sp&&editSpace(sp)},
  ]);
 }
+/* storage */
+async function blobOf(ref){
+ if(!ref)return null;
+ if(ref.startsWith('l:'))return await idbGet('blobs',ref.slice(2));
+ if(ref.startsWith('a:')){const r=await fetch('/_blob/'+ref.slice(2));return r.ok?await r.blob():null}
+ return null;
+}
+async function fillStorage(){
+ if(!$('#storeInfo'))return;
+ let est=null,pers=null;
+ try{est=await navigator.storage.estimate()}catch(e){}
+ try{pers=await navigator.storage.persisted()}catch(e){}
+ let changed=false;
+ if(Store.mode==='local')for(const it of Store.items){if(typeof it.size!=='number'){let n=0;for(const r of itemRefs(it))if(r.startsWith('l:')){try{const b=await idbGet('blobs',r.slice(2));if(b)n+=b.size}catch(e){}}it.size=n;changed=true}}
+ if(changed)Store.saveLocal();
+ const el=$('#storeInfo');if(!el)return;
+ const vis=spacesSorted();let tot=0,cnt=0;
+ const rows=vis.map(s=>{const its=Store.items.filter(i=>i.spaceId===s.id);const sz=its.reduce((n,i)=>n+(i.size||0),0);tot+=sz;cnt+=its.length;
+  if(isLocked(s))return `<div class="set-row"><span class="ic">${avatar(s,24)}</span><span class="tx"><b>${esc(s.name)}</b><small>Locked</small></span><span class="val">${fmtSize(sz)}</span></div>`;
+  const v=its.filter(i=>i.type==='video').length,a=its.filter(i=>i.type==='album').length,p=its.length-v-a;
+  return `<div class="set-row"><span class="ic">${avatar(s,24)}</span><span class="tx"><b>${esc(s.name)}</b><small>${[p&&p+' photo'+(p>1?'s':''),v&&v+' video'+(v>1?'s':''),a&&a+' album'+(a>1?'s':'')].filter(Boolean).join(' · ')||'Empty'}</small></span><span class="val">${fmtSize(sz)}</span></div>`}).join('');
+ const free=est&&est.quota?Math.max(0,est.quota-(est.usage||0)):null;
+ el.innerHTML=`<div class="set-row"><span class="ic">${I.db}</span><span class="tx"><b>Used by Spaces</b><small>${cnt} post${cnt===1?'':'s'}${free!=null?' · about '+fmtSize(free)+' more can fit':''}</small></span><span class="val">${fmtSize(Math.max(tot,est&&est.usage||0))}</span></div>`+
+  (pers!=null?`<div class="set-row"><span class="ic">${pers?I.check:I.lock}</span><span class="tx"><b>${pers?'Storage is protected':'Storage not protected'}</b><small>${pers?'Your iPhone won\'t clear this media on its own.':'If your iPhone runs very low on space it may clear website data. Keep a backup.'}</small></span></div>`:'')+rows;
+ hydrate(el);
+}
+/* backup & restore */
+const MAGIC='SPCBAK01';
+async function backupSpaces(sps,label,extra){
+ if(!sps.length){toast('Nothing to back up');return}
+ const ids=new Set(sps.map(s=>s.id));
+ const its=Store.items.filter(i=>ids.has(i.spaceId));
+ const keyOf=new Map(),blobs=[],data=[];let off=0,miss=0;
+ busy(true);
+ try{
+  for(let n=0;n<its.length;n++){
+   progress(`Preparing backup ${n+1} of ${its.length}…`);
+   for(const r of itemRefs(its[n])){if(keyOf.has(r))continue;let b=null;try{b=await blobOf(r)}catch(e){}
+    if(!b){keyOf.set(r,null);miss++;continue}
+    const k='b'+blobs.length;keyOf.set(r,k);blobs.push({k,off,size:b.size,type:b.type||''});data.push(b);off+=b.size}
+  }
+  const mp=r=>r&&keyOf.get(r)?'@'+keyOf.get(r):null;
+  const items=its.map(it=>{const o=JSON.parse(JSON.stringify(it));delete o.localOnly;o.src=mp(it.src);o.thumb=mp(it.thumb);if(o.parts)o.parts.forEach((p,k)=>{p.src=mp(it.parts[k].src);p.thumb=mp(it.parts[k].thumb)});return o});
+  const head={app:'Spaces',v:1,created:Date.now(),spaces:JSON.parse(JSON.stringify(sps)),items,blobs};
+  if(sps.some(s=>s.hidden)&&LS.get('hid',null))head.hid=LS.get('hid',null);
+  const hb=new TextEncoder().encode(JSON.stringify(head));
+  const d=new Date(),ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const nm=String(label).replace(/[^\p{L}\p{N} _-]/gu,'').trim().slice(0,30)||'space';
+  const file=new File([MAGIC,String(hb.length).padStart(16,'0'),hb,...data],`Spaces backup ${nm} ${ds}.spaces`,{type:'application/octet-stream'});
+  progressDone();
+  saveFile(file,`${sps.length} space${sps.length>1?'s':''} · ${its.length} post${its.length===1?'':'s'}${miss?` · ${miss} file${miss>1?'s':''} missing`:''}${extra?' · '+extra:''}`);
+ }catch(e){console.error(e);progressDone();toast("Couldn't make the backup")}
+ finally{busy(false)}
+}
+function saveFile(file,info){
+ const bg=$('#dlgBg');
+ bg.innerHTML=`<div class="dlg"><h3>Backup ready</h3><p>${esc(info)} · ${fmtSize(file.size)}<br><br>Tap Save, then choose Save to Files, Google Drive, or AirDrop to your laptop.</p><div class="btns"><button data-r="1" class="primary">Save backup</button><button data-r="0">Not now</button></div></div>`;
+ requestAnimationFrame(()=>bg.classList.add('open'));
+ const close=()=>{bg.classList.remove('open');bg.onclick=null;setTimeout(()=>{if(!bg.classList.contains('open'))bg.innerHTML=''},250)};
+ bg.onclick=e=>{
+  const b=e.target.closest('[data-r]');if(!b&&e.target!==bg)return;close();if(!b||b.dataset.r!=='1')return;
+  let p=null;busy(true);
+  try{if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]}))p=navigator.share({files:[file],title:file.name})}catch(err){p=null}
+  if(!p){downloadFile(file);setTimeout(()=>busy(false),1500);return}
+  p.then(()=>toast('Backup saved')).catch(err=>{if(!err||err.name!=='AbortError')downloadFile(file)}).finally(()=>setTimeout(()=>busy(false),800));
+ };
+}
+function downloadFile(file){const u=URL.createObjectURL(file);const a=document.createElement('a');a.href=u;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),120000);toast('Backup downloaded')}
+async function withUnlocked(sps,fn){
+ const opened=[];let skipped=0;
+ for(const s of sps){if(!isLocked(s))continue;if(await unlockSpace(s))opened.push(s.id);else skipped++}
+ try{await fn(sps.filter(s=>!isLocked(s)),skipped)}
+ finally{for(const id of opened)if(id!==S.cur)S.unlocked.delete(id);if(opened.length)render()}
+}
+function backupAll(){
+ const sps=spacesSorted();if(!sps.length)return toast('Nothing to back up yet');
+ return withUnlocked(sps,(use,skipped)=>backupSpaces(use,'all',skipped?`${skipped} locked space${skipped>1?'s':''} left out`:''));
+}
+function backupOne(){
+ const sps=spacesSorted();if(!sps.length)return toast('Nothing to back up yet');
+ return menu('Back up which space?',sps.map(s=>({label:s.name,icon:avatarIcon(s),sub:isLocked(s)?'Locked':countOf(s.id)+' posts',fn:()=>withUnlocked([s],use=>use.length?backupSpaces(use,s.name):null)})));
+}
+function pickRestore(){busy(true);const p=$('#restorePicker');p.value='';p.click()}
+async function restoreFile(f){
+ busy(true);
+ try{
+  progress('Reading backup…');
+  if(await f.slice(0,8).text()!==MAGIC)throw new Error('That file is not a Spaces backup.');
+  const L=parseInt(await f.slice(8,24).text(),10);if(!(L>0))throw new Error('This backup file is damaged.');
+  const head=JSON.parse(await f.slice(24,24+L).text());const base=24+L;
+  const bl=new Map((head.blobs||[]).map(b=>[b.k,b])),made=new Map();
+  const get=async r=>{if(!r||r[0]!=='@')return null;const k=r.slice(1);if(made.has(k))return made.get(k);const b=bl.get(k);if(!b)return null;
+   const m=await Store.storeBlob(f.slice(base+b.off,base+b.off+b.size,b.type||''),b.type||'application/octet-stream');made.set(k,m.ref);return m.ref};
+  const haveSp=new Set(Store.spaces.map(s=>s.id)),haveIt=new Set(Store.items.map(i=>i.id));
+  let mx=Math.floor(Store.spaces.reduce((m,s)=>Math.max(m,spOrd(s)),0));
+  const newSps=(head.spaces||[]).filter(s=>s&&s.id&&!haveSp.has(s.id)).map(s=>({...s,order:++mx}));
+  if(newSps.length)await Store.addSpaces(newSps);
+  if(head.hid&&!LS.get('hid',null))LS.set('hid',head.hid);
+  const todo=(head.items||[]).filter(i=>i&&i.id&&!haveIt.has(i.id));
+  let batch=[],added=0;
+  for(let n=0;n<todo.length;n++){
+   progress(`Restoring ${n+1} of ${todo.length}…`);const it=todo[n];
+   try{
+    it.src=await get(it.src);const th=await get(it.thumb);if(th)it.thumb=th;else delete it.thumb;
+    if(it.parts){for(const p of it.parts){p.src=await get(p.src);const pt=await get(p.thumb);if(pt)p.thumb=pt;else delete p.thumb}it.parts=it.parts.filter(p=>p.src);if(!it.parts.length)continue;albumOf(it.parts,it)}
+    if(!it.src)continue;
+    delete it.localOnly;
+    batch.push(it);added++;
+    if(batch.length>=40){await Store.addItems(batch);batch=[]}
+   }catch(e){console.error(e)}
+  }
+  if(batch.length)await Store.addItems(batch);
+  progressDone();
+  const same=(head.items||[]).length-todo.length;
+  toast(`Restored ${newSps.length} space${newSps.length===1?'':'s'} and ${added} post${added===1?'':'s'}${same?` · ${same} were already here`:''}`);
+  S.gkey='';render();
+ }catch(e){console.error(e);progressDone();toast(e&&e.message&&/backup/.test(e.message)?e.message:"Couldn't read that backup")}
+ finally{busy(false)}
+}
+/* settings */
 function renderSettings(){
  const v=$('#settingsView');const sw=on=>`<span class="sw${on?' on':''}"></span>`;
+ const hid=LS.get('hid',null);
  v.innerHTML=`<div class="ghead"><button class="icobtn" data-set="back" aria-label="Back">${I.back}</button><div class="title"><span>Settings</span></div></div>
   <div class="set-sec">Reels</div>
   <div class="set-card">
    <button class="set-row" data-set="random"><span class="ic">${I.shuffle}</span><span class="tx"><b>Random order</b><small>Reels in each space play in a random order instead of newest or oldest first.</small></span>${sw(S.random)}</button>
    ${S.random?`<button class="set-row blue" data-set="reshuffle"><span class="ic">${I.shuffle}</span><span class="tx"><b>Shuffle again</b><small>Mix the reels into a new random order.</small></span></button>`:''}
+   <button class="set-row" data-set="sound"><span class="ic">${I.volOn}</span><span class="tx"><b>Play with sound</b><small>Reels start with sound on. Tap a reel any time to mute or unmute.</small></span>${sw(S.sound)}</button>
+   <button class="set-row" data-set="auto"><span class="ic">${I.auto}</span><span class="tx"><b>Auto-scroll</b><small>Moves to the next reel by itself. Photos stay for 5 seconds and videos play to the end.</small></span>${sw(S.auto)}</button>
+  </div>
+  <div class="set-sec">Privacy</div>
+  <div class="set-card">
+   ${S.fidAvail||faceOn()?`<button class="set-row" data-set="faceid"><span class="ic">${I.face}</span><span class="tx"><b>Unlock with Face ID</b><small>Open locked spaces with Face ID. Your passcode still works.</small></span>${sw(faceOn())}</button>`:''}
+   <button class="set-row" data-set="hidcode"><span class="ic">${I.eyeOff}</span><span class="tx"><b>${hid?'Change hidden spaces code':'Set hidden spaces code'}</b><small>Hide a space from its Edit menu. To show hidden spaces, type the code in the gallery search box.</small></span></button>
+   ${hid?`<button class="set-row" data-set="hidrm"><span class="ic">${I.trash}</span><span class="tx"><b>Remove code</b><small>Hidden spaces become visible again.</small></span></button>`:''}
+   ${S.showHidden?`<button class="set-row blue" data-set="hidnow"><span class="ic">${I.eyeOff}</span><span class="tx"><b>Hide hidden spaces now</b></span></button>`:''}
   </div>
   <div class="set-sec">Gallery</div>
   <div class="set-card">
    <div class="set-row"><span class="ic">${I.cols}</span><span class="tx"><b>Grid size</b></span><span class="seg"><button data-set="cols3" class="${S.cols===3?'on':''}">3</button><button data-set="cols5" class="${S.cols===5?'on':''}">5</button></span></div>
    <div class="set-row"><span class="ic">${I.down}</span><span class="tx"><b>Order</b>${S.random?'<small>Reels use random order. The gallery grid uses this order.</small>':''}</span><span class="seg"><button data-set="new" class="${S.sort!=='old'?'on':''}">Newest</button><button data-set="old" class="${S.sort==='old'?'on':''}">Oldest</button></span></div>
   </div>
+  <div class="set-sec">Storage</div>
+  <div class="set-card" id="storeInfo"><div class="set-row"><span class="ic">${I.db}</span><span class="tx"><small>Working out storage…</small></span></div></div>
+  <div class="set-sec">Backup</div>
+  <div class="set-card">
+   <button class="set-row" data-set="bkall"><span class="ic">${I.save}</span><span class="tx"><b>Back up everything</b><small>Makes one file with all your spaces. Save it to Files, Google Drive or your laptop.</small></span></button>
+   <button class="set-row" data-set="bkone"><span class="ic">${I.layers}</span><span class="tx"><b>Back up one space</b><small>A smaller file with just one space.</small></span></button>
+   <button class="set-row" data-set="restore"><span class="ic">${I.restore}</span><span class="tx"><b>Restore from backup</b><small>Adds spaces and posts from a backup file. Nothing here gets deleted.</small></span></button>
+  </div>
+  <div class="note" style="text-align:left;padding:8px 18px 0">Locked spaces ask for their passcode before going into a backup. Hidden spaces are only included while they're shown.</div>
   <div class="set-sec">About</div>
-  <div class="set-card"><div class="set-row"><span class="ic">${I.layers}</span><span class="tx"><b>Spaces</b><small>${Store.mode==='local'?'Your media is saved on this iPhone.':'Your media is saved to your account.'}</small></span></div></div>
+  <div class="set-card"><div class="set-row"><span class="ic">${I.layers}</span><span class="tx"><b>Spaces</b><small>${Store.mode==='local'?'Your media is saved on this device.':'Your media is saved to your account.'}</small></span></div></div>
   <div style="height:30px"></div>`;
+ fillStorage();
 }
 $('#settingsView').addEventListener('click',e=>{
  const b=e.target.closest('[data-set]');if(!b)return;const a=b.dataset.set;
  if(a==='back')return show(S.back&&S.back!=='settings'?S.back:'feed');
  if(a==='random'){S.random=!S.random;LS.set('random',S.random);shuf.clear();mainFeed.key='';mainFeed.lastIdx=0;renderFeed();toast(S.random?'Random order on':'Random order off')}
  if(a==='reshuffle'){shuf.clear();mainFeed.key='';mainFeed.lastIdx=0;renderFeed();toast('Reels shuffled')}
+ if(a==='sound'){S.sound=!S.sound;LS.set('sound',S.sound);S.muted=!S.sound;for(const f of [mainFeed,viewFeed]){const v=f.cur();if(v)v.muted=S.muted}toast(S.sound?'Reels play with sound':'Reels start muted')}
+ if(a==='auto'){S.auto=!S.auto;LS.set('auto',S.auto);for(const f of [mainFeed,viewFeed]){f.el.querySelectorAll('video').forEach(v=>v.loop=!S.auto);f.arm()}toast(S.auto?'Auto-scroll on':'Auto-scroll off')}
+ if(a==='faceid'){if(faceOn()){LS.set('faceid',false);toast('Face ID off')}else{faceEnroll().then(ok=>{toast(ok?'Face ID on':"Face ID couldn't be turned on");renderSettings()});return}}
+ if(a==='hidcode'){setHidCode().then(()=>renderSettings());return}
+ if(a==='hidrm'){removeHidCode().then(()=>renderSettings());return}
+ if(a==='hidnow'){hideHiddenNow();toast('Hidden spaces are hidden again')}
+ if(a==='bkall')return backupAll();
+ if(a==='bkone')return backupOne();
+ if(a==='restore')return pickRestore();
  if(a==='cols3'||a==='cols5'){S.cols=a==='cols3'?3:5;LS.set('cols',S.cols);S.gkey='';renderGallery(true)}
  if(a==='new'||a==='old'){S.sort=a;LS.set('sort',a);mainFeed.key='';render()}
  renderSettings();
 });
 function setSort(s){S.sort=s;LS.set('sort',s);mainFeed.key='';render()}
-
 /* ---------- adding media ---------- */
-function pick(){const cs=curSpace();if(isLocked(cs)){unlockSpace(cs).then(ok=>ok&&pick());return}const p=$('#picker');p.value='';p.click()}
-$('#picker').addEventListener('change',e=>{const f=[...e.target.files];if(f.length)handleFiles(f)});
+function pick(){const cs=curSpace();if(isLocked(cs)){unlockSpace(cs).then(ok=>ok&&pick());return}const p=$('#picker');p.value='';busy(true);p.click()}
+$('#picker').addEventListener('change',e=>{busy(false);const f=[...e.target.files];if(f.length)handleFiles(f)});
+$('#picker').addEventListener('cancel',()=>busy(false));
+$('#restorePicker').addEventListener('change',e=>{busy(false);const f=e.target.files[0];if(f)restoreFile(f)});
+$('#restorePicker').addEventListener('cancel',()=>busy(false));
+const choose=(title,opts)=>menu(title,[...opts.map(o=>({...o,fn:()=>o.v})),{label:'Cancel',fn:()=>null}]).then(v=>v||null);
+/* duplicate check: size + hash of the first and last 256 KB */
+async function fpOf(blob){
+ const n=blob.size,K=262144;
+ const a=new Uint8Array(await blob.slice(0,Math.min(n,K)).arrayBuffer());
+ const b=n>K?new Uint8Array(await blob.slice(Math.max(K,n-K),n).arrayBuffer()):new Uint8Array(0);
+ const u=new Uint8Array(a.length+b.length);u.set(a,0);u.set(b,a.length);
+ const d=new Uint8Array(await crypto.subtle.digest('SHA-256',u));
+ return n+':'+[...d.slice(0,12)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+async function spaceFps(spaceId){
+ const set=new Set();let changed=false;
+ for(const it of Store.items){if(it.spaceId!==spaceId)continue;
+  for(const p of (it.type==='album'?it.parts:[it])){
+   if(!p.fp&&Store.mode==='local'&&p.src&&p.src.startsWith('l:')){try{const b=await idbGet('blobs',p.src.slice(2));if(b){p.fp=await fpOf(b);changed=true}}catch(e){}}
+   if(p.fp)set.add(p.fp);
+  }}
+ if(changed)Store.saveLocal();
+ return set;
+}
 async function handleFiles(files){
  let sp=curSpace();if(!sp){sp=await createSpace();if(!sp)return}
- const spaceId=sp.id,base=Date.now();let ok=0,fail=0,local=0;
- for(let k=0;k<files.length;k++){
-  progress(files.length>1?`Adding ${k+1} of ${files.length}…`:'Adding…');
-  try{const r=await addFile(files[k],spaceId,base+k);ok++;if(r.local)local++}catch(e){console.error(e);fail++}
+ const spaceId=sp.id;
+ progress('Checking for duplicates…');
+ let fps=[],have=new Set();
+ try{fps=await Promise.all(files.map(f=>fpOf(f).catch(()=>null)));have=await spaceFps(spaceId)}catch(e){console.warn(e)}
+ progressDone();
+ const seen=new Set();
+ let list=files.map((f,k)=>{const x=fps[k]||null;const dup=!!x&&(have.has(x)||seen.has(x));if(x)seen.add(x);return{f,fp:x,dup}});
+ const nd=list.filter(x=>x.dup).length;
+ if(nd){
+  const all=nd===list.length;
+  const r=await choose(all?(nd===1?`This is already in ${sp.name}`:`All ${nd} are already in ${sp.name}`):`${nd} of ${list.length} are already in ${sp.name}`,[{label:all?"Don't add":'Skip duplicates',v:'skip',icon:I.check},{label:'Add anyway',v:'all',icon:I.plus}]);
+  if(!r)return;if(r==='skip')list=list.filter(x=>!x.dup);
+  if(!list.length){toast('Nothing new to add');return}
+ }
+ let album=false;
+ if(list.length>1){const r=await choose(`Add ${list.length} items`,[{label:'Separate posts',v:'sep',icon:I.grid},{label:'One album',v:'alb',icon:I.album}]);if(!r)return;album=r==='alb'}
+ const base=Date.now();let ok=0,fail=0,local=0;const made=[];
+ for(let k=0;k<list.length;k++){
+  progress(list.length>1?`Adding ${k+1} of ${list.length}…`:'Adding…');
+  try{
+   const r=await makePart(list[k].f,list[k].fp);if(r.local)local++;
+   if(album)made.push(r.p);
+   else{const it=Object.assign({id:uid(),spaceId,createdAt:base+k,liked:false},r.p);if(r.local&&Store.mode==='cloud')it.localOnly=true;await Store.putItem(it)}
+   ok++;
+  }catch(e){console.error(e);fail++}
+ }
+ if(album&&made.length){
+  const it=made.length===1?Object.assign({id:uid(),spaceId,createdAt:base,liked:false},made[0]):albumOf(made,{id:uid(),spaceId,createdAt:base,liked:false});
+  if(local&&Store.mode==='cloud')it.localOnly=true;
+  try{await Store.putItem(it)}catch(e){fail+=ok;ok=0}
  }
  progressDone();
- let msg=ok?`Added ${ok} to ${sp.name}`:'Nothing was added';
+ let msg=ok?(album&&ok>1?`Added an album of ${ok} to ${sp.name}`:`Added ${ok} to ${sp.name}`):'Nothing was added';
  if(fail)msg+=` · ${fail} failed`;
  if(local&&Store.mode==='cloud')msg+=` · ${local} too large for sync, kept on this device`;
  toast(msg);
  if(ok&&S.view==='feed'){mainFeed.lastIdx=0;mainFeed.key='';renderFeed();mainFeed.go(0)}
 }
 function isVideo(f){return (f.type||'').startsWith('video/')||/\.(mov|mp4|m4v|webm|3gp)$/i.test(f.name||'')}
-async function addFile(f,spaceId,ts){
- const it={id:uid(),spaceId,createdAt:ts,liked:false};let local=false;
+async function makePart(f,fp){
+ const p={};let local=false;
  if(isVideo(f)){
-  it.type='video';
+  p.type='video';
   const vt=(f.type||'').toLowerCase()==='video/webm'?'video/webm':'video/mp4';
   const {thumb,meta}=await videoThumb(f);
-  const m=await Store.storeBlob(f,vt);it.src=m.ref;local=!!m.local;
-  if(thumb){try{const t=await Store.storeBlob(thumb,'image/jpeg');it.thumb=t.ref}catch(e){}}
-  Object.assign(it,meta);
+  const m=await Store.storeBlob(f,vt);p.src=m.ref;local=!!m.local;p.size=f.size;
+  if(thumb){try{const t=await Store.storeBlob(thumb,'image/jpeg');p.thumb=t.ref;p.size+=thumb.size}catch(e){}}
+  for(const k of ['dur','w','h'])if(meta[k]!=null)p[k]=meta[k];
  }else{
-  it.type='image';
-  const p=await processImage(f);
-  const m=await Store.storeBlob(p.main,p.type);it.src=m.ref;local=!!m.local;
-  if(p.thumb){try{const t=await Store.storeBlob(p.thumb,'image/jpeg');it.thumb=t.ref}catch(e){}}
-  it.w=p.w;it.h=p.h;
+  p.type='image';
+  const r=await processImage(f);
+  const m=await Store.storeBlob(r.main,r.type);p.src=m.ref;local=!!m.local;p.size=r.main.size;
+  if(r.thumb){try{const t=await Store.storeBlob(r.thumb,'image/jpeg');p.thumb=t.ref;p.size+=r.thumb.size}catch(e){}}
+  p.w=r.w;p.h=r.h;
  }
- if(local&&Store.mode==='cloud')it.localOnly=true;
- await Store.putItem(it);return{local};
+ if(fp)p.fp=fp;
+ return{p,local};
 }
 function loadImg(url){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('img'));i.src=url})}
 function canvasJpeg(src,w,h,max,q){
@@ -938,23 +1521,26 @@ $('#galleryView').addEventListener('click',e=>{
   if(a==='menu')return galleryMenu();
   if(a==='edit')return sp&&editSpace(sp);
   if(a==='new')return createSpace();
-  if(a==='play'){mainFeed.lastIdx=0;mainFeed.key='';renderFeed();show('feed');mainFeed.go(0);return}
+  if(a==='qclear'){S.q='';const i=$('#gq');if(i)i.value='';return renderGrid()}
+  if(a==='play'){
+   if(qTerms().length){const l=S.glist||[];if(!l.length)return toast('No posts to play');return openViewer(l,l[0].id,qTerms().map(t=>'#'+t).join(' '))}
+   mainFeed.lastIdx=0;mainFeed.key='';renderFeed();show('feed');mainFeed.go(0);return;
+  }
   if(a==='selcancel'){S.select=null;return renderGallery(true)}
-  if(a==='seldel'){const ids=[...S.select];if(!ids.length)return toast('Select posts first');
-   return dialog({title:`Delete ${ids.length} post${ids.length>1?'s':''}?`,msg:"You can't undo this.",ok:'Delete',danger:true}).then(async ok=>{if(!ok)return;
-    for(let k=0;k<ids.length;k++){progress(`Deleting ${k+1} of ${ids.length}…`);const it=Store.items.find(i=>i.id===ids[k]);if(it){try{await Store.delItem(it)}catch(e){}}}
-    progressDone();S.select=null;renderGallery(true);toast('Deleted')})}
-  if(a==='selmove'){const ids=[...S.select];if(!ids.length)return toast('Select posts first');return moveItems(ids).then(r=>{if(r){S.select=null;renderGallery(true)}})}
+  if(a==='selact')return selActions();
   return;
  }
+ const tq=e.target.closest('[data-tq]');if(tq){const t=tq.dataset.tq;const q=qTerms();S.q=q.length===1&&q[0]===t?'':t;const i=$('#gq');if(i)i.value=S.q;return renderGrid()}
  const h=e.target.closest('[data-hl]');if(h)return setCur(h.dataset.hl);
  const tb=e.target.closest('[data-tab2]');if(tb){S.gtab=tb.dataset.tab2;return renderGallery(true)}
  const tile=e.target.closest('.tile');
  if(tile){const id=tile.dataset.id;
   if(S.select){if(S.select.has(id))S.select.delete(id);else S.select.add(id);tile.classList.toggle('sel');const c=$('#selCount');if(c)c.textContent=S.select.size?S.select.size+' selected':'Select items';return}
-  openViewer(S.glist,id);
+  openViewer(S.glist,id,qTerms().length?qTerms().map(t=>'#'+t).join(' '):null);
  }
 });
+$('#galleryView').addEventListener('input',e=>{if(e.target.id!=='gq')return;S.q=e.target.value;renderGrid();checkHidCode(e.target.value)});
+$('#galleryView').addEventListener('keydown',e=>{if(e.target.id==='gq'&&e.key==='Enter'){e.preventDefault();e.target.blur()}});
 // long-press a tile to start selecting
 (()=>{let t,id;const g=$('#galleryView');
  g.addEventListener('pointerdown',e=>{const tile=e.target.closest('.tile');if(!tile||S.select)return;id=tile.dataset.id;t=setTimeout(()=>{S.select=new Set([id]);renderGallery(true);if(navigator.vibrate)navigator.vibrate(10);g._sup=true},500)});
@@ -966,22 +1552,35 @@ $('#vback').innerHTML=I.back;
 document.querySelector('.fgear').innerHTML=I.gear;
 $('#vback').onclick=()=>show('gallery');
 
-// swipe left/right on the feed to switch spaces
-(()=>{let sx,sy,st;const f=$('#feedView');
- f.addEventListener('touchstart',e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now()},{passive:true});
- f.addEventListener('touchend',e=>{const t=e.changedTouches[0];const dx=t.clientX-sx,dy=t.clientY-sy;
+// swipe left/right on the feed to switch spaces (not on albums, the scrub bar or the space chips)
+(()=>{let sx=null,sy,st;const f=$('#feedView');
+ f.addEventListener('touchstart',e=>{if(e.target.closest('.alb,.prog,.chips')){sx=null;return}const t=e.touches[0];sx=t.clientX;sy=t.clientY;st=Date.now()},{passive:true});
+ f.addEventListener('touchend',e=>{if(sx==null)return;const t=e.changedTouches[0];const dx=t.clientX-sx,dy=t.clientY-sy;sx=null;
   if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*2&&Date.now()-st<700){
    const sp=spacesSorted();if(sp.length<2)return;let i=sp.findIndex(s=>s.id===S.cur);i=(i+(dx<0?1:-1)+sp.length)%sp.length;setCur(sp[i].id);toast(sp[i].name);
   }},{passive:true});
 })();
-document.addEventListener('touchend',()=>{const f=S.view==='viewer'?viewFeed:S.view==='feed'?mainFeed:null;if(!f||f.held)return;const s=f.slideAt(f.active),p=f.cur();if(s&&p&&s.classList.contains('blocked')){p.muted=S.muted;p.play().catch(()=>{})}f.unlockAll()},{passive:true});
-let hiddenAt=0;document.addEventListener('visibilitychange',()=>{if(document.hidden)hiddenAt=Date.now();else if(hiddenAt&&Date.now()-hiddenAt>30000&&S.unlocked.size){S.unlocked.clear();S.gkey='';mainFeed.key='';if(S.view==='viewer')show('gallery');render();renderGallery(true)}});
+document.addEventListener('touchend',()=>{const f=S.view==='viewer'?viewFeed:S.view==='feed'?mainFeed:null;if(!f||f.held)return;const s=f.slideAt(f.active),p=f.cur();
+ if(s&&p&&s.classList.contains('blocked')){p.muted=S.muted;p.play().catch(()=>{})}
+ else if(p&&!p.paused&&p.muted&&!S.muted){p.muted=false;f.autoUnmute=Date.now()}
+ f.unlockAll()},{passive:true});
+// lock again whenever the app goes to the background (not while a picker, Face ID or share sheet is open)
+function relockAll(){
+ const had=S.unlocked.size||S.showHidden;
+ S.unlocked.clear();S.showHidden=false;
+ if(!had)return;
+ if(sheetState.kind)closeSheet(-1);
+ S.gkey='';mainFeed.key='';if(S.view==='viewer')show('gallery');render();renderGallery(true);
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&!isBusy())relockAll()});
+window.addEventListener('pagehide',()=>{if(!isBusy())relockAll()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){mainFeed.pauseAll();viewFeed.pauseAll()}else{if(S.view==='feed')mainFeed.setVisible(true);if(S.view==='viewer')viewFeed.setVisible(true)}});
 
 /* ---------- boot ---------- */
 $('#loading .logo').innerHTML=I.layers;
 mainFeed=new Feed($('#feed'));viewFeed=new Feed($('#vfeed'));
 mainFeed.visible=true;
+try{if(window.PublicKeyCredential&&PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable)PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable().then(v=>{S.fidAvail=!!v;if(S.view==='settings')renderSettings()}).catch(()=>{})}catch(e){}
 let rq=false;Store.on(()=>{if(rq)return;rq=true;requestAnimationFrame(()=>{rq=false;render()})});
 Store.init().then(()=>{
  if(Store.mode==='local')render();
