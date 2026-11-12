@@ -295,7 +295,7 @@ svg{display:block}
 </div>
 
 <script>
-"use strict";const APP_VERSION="9";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
+"use strict";const APP_VERSION="10";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
 (function(){try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');const g=x.createLinearGradient(0,180,180,0);g.addColorStop(0,'#ffc24b');g.addColorStop(.55,'#ff5470');g.addColorStop(1,'#b33bdb');x.fillStyle=g;x.fillRect(0,0,180,180);x.strokeStyle='#fff';x.lineWidth=9;x.lineJoin='round';x.lineCap='round';x.beginPath();x.moveTo(90,40);x.lineTo(147,67);x.lineTo(90,94);x.lineTo(33,67);x.closePath();x.stroke();[100,123].forEach(y=>{x.beginPath();x.moveTo(33,y);x.lineTo(90,y+27);x.lineTo(147,y);x.stroke()});document.getElementById('appIcon').href=c.toDataURL('image/png')}catch(e){}})();
 
 /* ---------- icons ---------- */
@@ -1577,6 +1577,21 @@ window.addEventListener('pagehide',()=>{if(!isBusy())relockAll()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){mainFeed.pauseAll();viewFeed.pauseAll()}else{if(S.view==='feed')mainFeed.setVisible(true);if(S.view==='viewer')viewFeed.setVisible(true)}});
 
 /* ---------- boot ---------- */
+// iPhone Home Screen apps sometimes leave a blank strip under the tab bar (often after the keyboard closes): size the app to the full screen
+(()=>{const app=$('#app');
+ const sa=()=>navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches);
+ const fit=()=>{const ae=document.activeElement;
+  if(ae&&/^(INPUT|TEXTAREA)$/.test(ae.tagName)){app.style.height='';app.style.bottom='';return}
+  let h=window.innerHeight;if(sa()&&window.innerHeight>window.innerWidth)h=Math.max(h,screen.height||0);
+  app.style.bottom='auto';app.style.height=h+'px';
+  if(window.scrollY||document.documentElement.scrollTop)window.scrollTo(0,0)};
+ ['resize','orientationchange','pageshow'].forEach(t=>window.addEventListener(t,()=>setTimeout(fit,60)));
+ if(window.visualViewport)visualViewport.addEventListener('resize',()=>setTimeout(fit,60));
+ document.addEventListener('focusout',()=>setTimeout(fit,120));
+ document.addEventListener('focusin',()=>setTimeout(fit,0));
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(fit,60)});
+ fit();
+})();
 $('#loading .logo').innerHTML=I.layers;
 mainFeed=new Feed($('#feed'));viewFeed=new Feed($('#vfeed'));
 mainFeed.visible=true;
