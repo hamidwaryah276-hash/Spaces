@@ -301,7 +301,7 @@ svg{display:block}
 </div>
 
 <script>
-"use strict";const APP_VERSION="12";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
+"use strict";const APP_VERSION="13";(function(){try{fetch("./index.html?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/APP_VERSION="(\d+)"/);if(m&&m[1]!==APP_VERSION&&!location.search.includes("v="+m[1]))location.replace(location.pathname+"?v="+m[1])}).catch(()=>{})}catch(e){}})();
 (function(){try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');const g=x.createLinearGradient(0,180,180,0);g.addColorStop(0,'#ffc24b');g.addColorStop(.55,'#ff5470');g.addColorStop(1,'#b33bdb');x.fillStyle=g;x.fillRect(0,0,180,180);x.strokeStyle='#fff';x.lineWidth=9;x.lineJoin='round';x.lineCap='round';x.beginPath();x.moveTo(90,40);x.lineTo(147,67);x.lineTo(90,94);x.lineTo(33,67);x.closePath();x.stroke();[100,123].forEach(y=>{x.beginPath();x.moveTo(33,y);x.lineTo(90,y+27);x.lineTo(147,y);x.stroke()});document.getElementById('appIcon').href=c.toDataURL('image/png')}catch(e){}})();
 
 /* ---------- icons ---------- */
@@ -489,6 +489,7 @@ class Feed{
   this.el=el;this.opts=opts;this.items=[];this.key='';this.active=-1;this.visible=false;this.lastIdx=0;this.pending=null;
   this.io=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting&&e.intersectionRatio>=.6)this.setActive(+e.target.dataset.i)},{root:el,threshold:[.6]});
   el.addEventListener('click',e=>this.onClick(e));
+  el.addEventListener('scroll',()=>{this.scrolling=true;clearTimeout(this.scrollT);this.scrollT=setTimeout(()=>{this.scrolling=false;this.settle()},140)},{passive:true});
   el.addEventListener('pointerdown',e=>{if(e.target.closest('.prog.sc'))return this.scrub(e);if(!e.target.closest('.tapzone,.alb'))return;this.px=e.clientX;this.py=e.clientY;clearTimeout(this.holdT);this.holdT=setTimeout(()=>this.hold(true),260)});
   el.addEventListener('pointermove',e=>{if(this.holdT&&(Math.abs(e.clientX-this.px)>8||Math.abs(e.clientY-this.py)>8)){clearTimeout(this.holdT);this.holdT=null}});
   const up=()=>{clearTimeout(this.holdT);this.holdT=null;if(this.held)this.hold(false)};
@@ -542,9 +543,27 @@ class Feed{
  }
  setActive(i){
   if(i===this.active||i<0||i>=this.items.length)return;
-  this.active=i;this.lastIdx=i;
-  const ch=this.el.children;
-  for(let j=0;j<ch.length;j++){if(Math.abs(j-i)<=2)this.mount(ch[j],this.items[j]);else this.unmount(ch[j]);if(j!==i){ch[j].classList.remove('blocked');ch[j]._v=null;ch[j].querySelectorAll('.alb video').forEach(v=>v.pause())}}
+  const prev=this.active;this.active=i;this.lastIdx=i;
+  const ch=this.el.children,s=ch[i],it=this.items[i];
+  // light work only while the reel is still moving: stop the old one, start the new one if it's already loaded
+  const ps=ch[prev];if(ps){if(ps._v)ps._v.pause();ps._v=null;ps.classList.remove('blocked')}
+  if(s){
+   if(!s._m)this.mount(s,it);
+   const p=this.pool&&this.pool.find(x=>x._idx===i&&x._ref===it.src&&x.parentNode);
+   if(p){s._v=p;p._bar=s.querySelector('.prog.sc i');if(this.visible&&!this.held)this.play(p)}
+  }
+  this.needSettle=true;
+  if(!this.scrolling)this.settle();
+ }
+ // heavy work (loading the next videos, freeing far ones) waits until scrolling has stopped
+ settle(){
+  if(!this.needSettle)return;this.needSettle=false;
+  const i=this.active,ch=this.el.children;if(i<0)return;
+  for(let j=0;j<ch.length;j++){
+   const near=Math.abs(j-i)<=2;
+   if(near)this.mount(ch[j],this.items[j]);else if(ch[j]._m)this.unmount(ch[j]);
+   if(j!==i&&near){ch[j].classList.remove('blocked');ch[j]._v=null;if(ch[j]._alb)ch[j]._alb.querySelectorAll('video').forEach(v=>v.pause())}
+  }
   this.assignPlayers(i);
   const s=ch[i],it=this.items[i];
   if(s&&s._alb){if(S.auto&&it.parts.length>1&&s._pi===it.parts.length-1){s._alb.scrollLeft=0}this.albumSync(s)}
